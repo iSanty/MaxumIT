@@ -21,5 +21,6 @@ urlpatterns = [
     path('', include('inicio.urls')),
     path('saladillo/', include('saladillo.urls')),
     
-    path('api/', include('api.urls'))
+    path('api/', include('api.urls')),
+    path('webhooks/', include('webhooks.urls'))
 ]

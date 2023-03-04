@@ -6,5 +6,4 @@ class PedidoParaMailSerializer(serializers.ModelSerializer):
     class Meta:
         model = PedidoParaMail
         fields = ('id', 'cliente', 'nro_pedido', 'mail')
-    
-    
+        
