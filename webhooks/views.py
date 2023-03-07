@@ -4,7 +4,13 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST
 
+from django.conf import settings
+from django.core.mail import send_mail
 
+from saladillo.models import PedidoParaMail
+
+import smtplib
+import os
 
 
 
@@ -19,12 +25,35 @@ def primer_mail(request, *args, **kwargs):
         nro_pedido = request.GET.get('nro_pedido','')
         mail = request.GET.get('mail','')
         
-        body = 'Estimados ' + cliente + """
-        Su pedido nro: """ + str(nro_pedido) + ' entró en nuestra base de datos.'
         
-        print('to: ' + mail + """ 
-              BodyMail:  """ + body)
+        pedido_existente = PedidoParaMail.objects.filter(nro_pedido=nro_pedido)
+        if not pedido_existente:
+            nuevo_pedido = PedidoParaMail(cliente=cliente,
+                                        nro_pedido=nro_pedido,
+                                        mail=mail,
+                                        mail1_enviado=1,
+                                        )
+            
+            asunto = 'Aviso de recepcion de pedido'
+            body = 'Subject: {}\n\n{}'.format(asunto, """Estimado cliente: 
+                                    
+                                    """+ cliente +
+                                    
+                                    
+                                    """Su pedido nro: """ + nro_pedido + " ha ingresado en nuestro sistema.")
+            
+            
+            server = smtplib.SMTP('smtp.office365.com','587')
+            server.starttls()
+            server.login(os.getenv('EMAIL_HOST_USER'),os.getenv('EMAIL_HOST_PASSWORD')) #aca logeo
+            server.sendmail(os.getenv('EMAIL_HOST_USER'), str(mail), body) #aca uso mi cuenta para q no aparezca "desconocido"
+            server.quit()
+            
+            nuevo_pedido.save()
+            
+            
+            
+            return HttpResponse('Success')
         
-        
-        
-        return HttpResponse('Success')
+        else:
+            return HttpResponse('Pedido Existente')
