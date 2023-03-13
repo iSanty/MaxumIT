@@ -2,7 +2,7 @@ class CasaHelseRouter:
 
 
     def db_for_read(self, model, **hints):
-        if model._meta.app_label == 'CasaHelse':
+        if model._meta.app_label == 'casahelze':
             return 'casahelse_db'
         return None
 
@@ -13,13 +13,13 @@ class CasaHelseRouter:
     
     def allow_relation(self, obj1, obj2, **hints):
         if(
-            obj1._meta.app_label == 'CasaHelse' or
-            obj2._meta.app_label == 'CasaHelse'
+            obj1._meta.app_label == 'casahelze' or
+            obj2._meta.app_label == 'casahelze'
         ):
             return True
         return None
     
     def allow_migrate(self, db, app_label, model_name=None, **hints):
-        if app_label == 'CasaHelse':
+        if app_label == 'casahelze':
             return db == 'casahelse_db'
         return None

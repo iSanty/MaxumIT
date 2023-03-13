@@ -22,5 +22,8 @@ urlpatterns = [
     path('saladillo/', include('saladillo.urls')),
     
     path('api/', include('api.urls')),
-    path('webhooks/', include('webhooks.urls'))
+    path('webhooks/', include('webhooks.urls')),
+    path('casahelze/', include('casahelze.urls')),
+    path('leer_saladillo/', include('lecturas_db.urls'))
+    
 ]

@@ -50,13 +50,14 @@ INSTALLED_APPS = [
     'aesseal',
     'api',
     'bot',
-    'casahelse',
+    'casahelze',
     'inicio',
     'saladillo',
     'whydonna',
     'rest_framework',
     'ckeditor',
-    'webhooks'
+    'webhooks',
+    'lecturas_db'
 ]
 
 MIDDLEWARE = [
@@ -155,6 +156,16 @@ DATABASES = {
         'PORT':'3306',
         'USER':'root',
         'PASSWORD':'2355',
+    },
+    'lecturas_db': {
+        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'lecturas_db',
+        
+        'HOST':'192.168.1.38',
+        'PORT':'3306',
+        'USER':'NotSantiago',
+        'PASSWORD':'47442355.',
     }
     
     
@@ -166,7 +177,8 @@ DATABASE_ROUTERS = [
     'routers.aesseal_router.AesSealRouter',
     'routers.casahelse_router.CasaHelseRouter',
     'routers.saladillo_router.SaladilloRouter',
-    'routers.whydonna_router.WhyDonnaRouter'
+    'routers.whydonna_router.WhyDonnaRouter',
+    'routers.lecturas_db_router.lecturas_db'
     
 ]
 
