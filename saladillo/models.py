@@ -64,3 +64,18 @@ class MaestroCliente(models.Model):
         return f'{self.codigo} - {self.nombre}'
     
     
+    
+    
+    
+class PrimeraInstancia(models.Model):
+    para = models.EmailField(null=True)
+    de = models.EmailField(null=True)
+    cliente = models.CharField(max_length=128)
+    body = RichTextField(max_length=1024)
+    nro_pedido = models.IntegerField()
+    orden_de_compra = models.CharField(max_length=128)
+    valor_total = models.IntegerField()
+    
+    
+    def __str__(self):
+        return f'{self.nro_pedido}'

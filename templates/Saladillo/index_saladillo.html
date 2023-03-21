@@ -33,27 +33,27 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-menu-button-wide"></i><span>Mails por estados</span><i class="bi bi-chevron-down ms-auto"></i>
+                <i class="bi bi-menu-button-wide"></i><span>Envio de Mails</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href={% url 'index_saladillo' %}>
+                    <a href={% url 'monitor' %}>
                         <i class="bi bi-circle"></i><span>Monitor</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <i class="bi bi-circle"></i><span>Conf. Mail</span>
+                        <i class="bi bi-circle"></i><span>Detalle Enviados</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <i class="bi bi-circle"></i><span>Conf. Mail x Estado</span>
+                        <i class="bi bi-circle"></i><span>Detalle No Enviados</span>
                     </a>
                 </li>
                 <li>
                     <a href={% url 'leer_saladillo' %}>
-                        <i class="bi bi-circle"></i><span>Cargar pedidos nuevos</span>
+                        <i class="bi bi-circle"></i><span>Configurar reloj</span>
                     </a>
                 </li>
                 
@@ -131,11 +131,6 @@
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
-    {% elif msj_enviados%}
-    <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
-      {{msj_enviados}}
-      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
 
     {% elif msj_carga%}
     <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
@@ -150,6 +145,29 @@
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     {% endif %}
+
+    {% if pendientes %}
+    
+    <div class="alert alert-secondary bg-secondary text-light border-0 alert-dismissible fade show" role="alert">
+        Hay un total de {{pendientes}} pedidos pendientes para informar la primer instancia
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+
+    {% if msj_enviados %}
+    <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+        Se han enviado un total de {{msj_enviados}} mails de primera instancia.
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    {% endif %}
+    {% if msj_no_enviado %}
+    <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+        No se han enviado un total de {{msj_no_enviado}} mails de primera instancia.
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+
 
 </div>
 
@@ -176,8 +194,9 @@
         <div class="container-fluid pt-4 px-4">
             <h6>Enviar Mails a clientes</h6>
             <div class="row g-4">
+                {% csrf_token %}
                 <form action={% url 'index_saladillo'%} method = "POST"> 
-                    
+                    {{form2.as_table}}
                     <button type="submit" class="btn btn-info" name="btn_enviar_mail">Enviar Mails</button>
                 </form>
             </div>

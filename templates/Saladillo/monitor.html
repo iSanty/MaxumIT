@@ -1,1 +1,64 @@
 {% extends 'Saladillo/index_saladillo.html' %}
+
+
+{% block graficos_tablas %}
+
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="row">
+        <!-- Sales Card -->
+            <div class="col-xxl-4 col-xl-12">
+                <div class="card info-card sales-card">
+  
+          
+  
+                    <div class="card-body">
+                        <h5 class="card-title">Total Enviados<span> | </span></h5>
+    
+                        <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="bi bi-bag-check"></i>
+                            </div>
+                        <div class="ps-3">
+                            {% if enviados %}
+                            <h6>{{enviados}}</h6>
+                            {% else %}
+                            <h6>0</h6>
+
+                            {% endif %}
+                            <span class="text-success small pt-1 fw-bold">...</span> <span class="text-muted small pt-2 ps-1"><a href="#"> Ver detalle</a></span>
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xxl-4 col-xl-12">
+                <div class="card info-card sales-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Pendientes<span> | </span></h5>
+        
+                        <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="bi bi-bag-x"></i>
+                            </div>
+                            <div class="ps-3">
+                                {% if pendientes %}
+                                <h6>{{pendientes}}</h6>
+                                {% else %}
+                                <h6>0</h6>
+                                {% endif %}
+                                <span class="text-success small pt-1 fw-bold">...</span> <span class="text-muted small pt-2 ps-1"><a href="#"> Ver detalle</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+  
+        </div>
+        
+    </div>
+</div>
+
+{% endblock graficos_tablas %} 

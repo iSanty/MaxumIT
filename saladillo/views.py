@@ -1,10 +1,10 @@
 from django.shortcuts import render
 
-from .models import PedidoParaMail, MaestroCliente
+from .models import PedidoParaMail, MaestroCliente, PrimeraInstancia
 from stg.models import pedidos, clientes_emails
 from datetime import datetime, date
 from .forms import FormActualizarPedidos
-
+from .funciones import mail_primera_instancia
 
 formato_fecha = "%d/%m/%Y %H:%M:%S"
 formato_fecha2 = "%d/%m/%Y"
@@ -21,6 +21,7 @@ def index_saladillo(request):
     
     if request.method == 'POST':
         form = FormActualizarPedidos(request.POST)
+        form2 = FormActualizarPedidos(request.POST)
         if form.is_valid():
             
             if 'btn_carga' in request.POST:
@@ -85,23 +86,55 @@ def index_saladillo(request):
                     pedidos_cargados = ''
                 
                 msj_carga = 'Conexión exitosa. Se han leido un total de: ' + str(cantidad_pedidos) + ' lineas de la fecha: ' + str(un_dia['fecha']) + ' y se han generado un total de: ' + str(contador) + ' pedidos nuevos.'
-                return render(request, 'saladillo/index_saladillo.html', {'msj_carga':msj_carga, 'pedidos':pedidos_cargados, 'form':form})
+                return render(request, 'saladillo/index_saladillo.html', {'msj_carga':msj_carga, 'pedidos':pedidos_cargados, 'form':form, 'form2':form2})
             
 
             
             elif 'btn_enviar_mail' in request.POST:
-                msj_enviados = 'Mails Enviados'
-                return render(request, 'saladillo/index_saladillo.html', {'msj_enviados':msj_enviados})
+                pendientes_totales = PedidoParaMail.objects.filter(mail1_enviado=False)
+                total_sin_datos = 0
+                total_enviados = 0
+                
+                if pendientes_totales:
+                    for valor in pendientes_totales:
+                        if valor.mail == 'Sin Datos':
+                            total_sin_datos += 1
+                            
+                        else:
+                            
+                            mail_primera_instancia(cliente=valor.cliente, importe_total=valor.importe_total, mail=valor.mail, orden_de_compra=valor.orden_de_compra, nro_pedido=valor.nro_pedido)
+                            total_enviados += 1
+                            valor.mail1_enviado = True
+                            valor.save()
+                    
+                    return render(request, 'saladillo/index_saladillo.html', {'msj_enviados':total_enviados,
+                                                                              'form':form,
+                                                                              'form2':form2,
+                                                                              'msj_no_enviado':total_sin_datos})
+                else:
+                    
+                    msj_error = 'No hay pendientes de enviar. Chequee seccion "Sin Datos"'
+                    return render(request, 'saladillo/index_saladillo.html', {'msj_enviados':total_enviados, 
+                                                                              'form':form, 
+                                                                              'form2':form2, 
+                                                                              'msj_no_enviado':total_sin_datos,
+                                                                              'msj_error':msj_error})
+        
+        
         else:
             msj_error = 'Formulario inválido.'
-            return render(request, 'saladillo/index_saladillo.html', {'msj_error':msj_error, 'form':form})
+            return render(request, 'saladillo/index_saladillo.html', {'msj_error':msj_error, 'form':form, 'form2':form2})
     else:
     
-        form = FormActualizarPedidos(initial={
+        form2 = FormActualizarPedidos(initial={
             'fecha':fecha_hoy})
         
+        form = FormActualizarPedidos(initial={
+            'fecha':fecha_hoy})
+        pendientes_mail = PedidoParaMail.objects.filter(mail1_enviado=False)
+        total_pend_mail_1 = len(pendientes_mail)
         msj_inicio = 'Para accionar utilice los siguientes botones: '
-        return render(request, 'saladillo/index_saladillo.html', {'form':form,'msj_inicio':msj_inicio})
+        return render(request, 'saladillo/index_saladillo.html', {'form':form,'msj_inicio':msj_inicio, 'form2':form2, 'pendientes':total_pend_mail_1})
 
 
 
@@ -110,9 +143,9 @@ def index_saladillo(request):
 
 def monitor(request):
     
-    pedidos = PedidoParaMail.objects.all()
+    enviados = PrimeraInstancia.objects.all()
     
-    pedido_primer_mail = pedidos.filter(mail1_enviado=1)
+    pendientes = PedidoParaMail.objects.filter(mail1_enviado=False)
     
     
-    return render(request, 'saladillo/monitor.html')
+    return render(request, 'saladillo/monitor.html',{'enviados':len(enviados), 'pendientes':len(pendientes)})
