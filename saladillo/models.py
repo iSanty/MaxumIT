@@ -6,11 +6,12 @@ from ckeditor.fields import RichTextField
 
 
 class PedidoParaMail(models.Model):
+    codigo_cliente = models.IntegerField()
     cliente = models.CharField(max_length=128)
     nro_pedido = models.IntegerField()
     nro_packing = models.IntegerField(null=True)
     nro_ruteo = models.IntegerField(null=True)
-    mail = models.EmailField()
+    mail = models.EmailField(null=True)
     mail1_enviado = models.BooleanField(null=True)
     mail2_enviado = models.BooleanField(null=True)
     mail3_enviado = models.BooleanField(null=True)
@@ -44,5 +45,22 @@ class CuerpoMail(models.Model):
     def __str__(self):
         return f'{self.body}'
     
+    
+    
+
+
+class MaestroCliente(models.Model):
+    codigo = models.IntegerField(primary_key=True)
+    nombre = models.CharField(max_length=128)
+    domicilio = models.CharField(max_length=128)
+    localidad = models.CharField(max_length=128)
+    cod_loc = models.IntegerField()
+    provincia = models.CharField(max_length=128)
+    telefono = models.CharField(max_length=128)
+    cuit = models.CharField(max_length=128)
+    cond_iva = models.CharField(max_length=128)
+    
+    def __str__(self):
+        return f'{self.codigo} - {self.nombre}'
     
     

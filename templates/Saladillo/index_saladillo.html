@@ -125,13 +125,13 @@
 
 
 <div class="container-fluid pt-4 px-4">
-    {% comment %} {% if msj_error %}
+    {% if msj_error %}
     <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
       {{msj_error}}
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div> {% endcomment %}
+    </div>
 
-    {% if msj_enviados%}
+    {% elif msj_enviados%}
     <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
       {{msj_enviados}}
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -161,7 +161,7 @@
             <div class="row g-4">
                 {% csrf_token %}
                 <form action={% url 'index_saladillo'%} method = "POST"> 
-                    
+                    {{form.as_table}}
                     <button type="submit" class="btn btn-info" name="btn_carga">Actualizar Pedidos</button>
                 </form>
             </div>
@@ -188,8 +188,62 @@
 
 
 
+
 {% if pedidos %}
-{{pedidos}}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-white rounded h-100 p-4">
+                {% block titulo_detalle %}<h6 class="mb-4">Detalle de pedidos ingresados el dia de hoy: </h6>{% endblock titulo_detalle %}
+                {% comment %} <a href={% url 'informe_global' %}><button class="btn btn-success">Actualizar</a></button> {% endcomment %}
+                <table class="table table-bordered border-primary">
+                    <thead>
+                        <tr>
+                            
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Nro Pedido</th>
+                            <th scope="col">Nro Packing</th>
+                            <th scope="col">Nro Ruteo</th>
+                            <th scope="col">Mail</th>
+                            <th scope="col">Primer Mail</th>
+                            <th scope="col">Segundo Mail</th>
+                            <th scope="col">Tercer Mail</th>
+                            <th scope="col">Entregado</th>
+                            <th scope="col">Importe Total</th>
+                            <th scope="col">Orden de compra</th>
+                            <th scope="col">Fecha Creacion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for valor in pedidos %}
+                        <tr>
+                            
+                            <th>{{valor.cliente}}</th>
+                            <td>{{valor.nro_pedido}}</td>
+                            <td>{{valor.nro_packing}}</td>
+                            <td>{{valor.nro_ruteo}}</td>
+                            <td>{{valor.mail}}</td>
+                            <td>{{valor.mail1_enviado}}</td>
+                            <td>{{valor.mail2_enviado}}</td>
+                            <td>{{valor.mail3_enviado}}</td>
+                            <td>{{valor.entregado}}</td>
+                            <td>{{valor.importe_total}}</td>
+                            <td>{{valor.orden_de_compra}}</td>
+                            <td>{{valor.fecha_creacion | date:"d/m/Y"}}</td>
+                
+                
+                        </tr>
+                        
+                        {% endfor %}
+  
+  
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>   
+
 
 {% endif %}
 

@@ -96,9 +96,9 @@ WSGI_APPLICATION = 'MaxumTI.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
+    
     'default': {},
-
-
+    
     'accounts_db': {
         #'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'ENGINE': 'django.db.backends.mysql',
@@ -120,6 +120,7 @@ DATABASES = {
         'USER':'root',
         'PASSWORD':'2355',
     },
+    
     'casahelse_db': {
         #'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'ENGINE': 'django.db.backends.mysql',
@@ -156,8 +157,6 @@ DATABASES = {
     'lecturas_db': {},
     
     'stg': {
-        
-        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'stpedidos',
         

@@ -24,11 +24,11 @@ class pedidos(models.Model):
     
     
 class clientes_emails(models.Model):
-    codigo = models.IntegerField()
+    codigo = models.IntegerField(primary_key=True, db_column='código')
     nombre = models.CharField(max_length=128)
-    email_1 = models.EmailField()
-    email_2 = models.EmailField()
-    email_3 = models.EmailField()
+    email_1 = models.EmailField(db_column='email 1')
+    email_2 = models.EmailField(db_column='email 2')
+    email_3 = models.EmailField(db_column='email 3')
     
     def __str__(self):
         return f'{self.codigo} - {self.nombre}'
