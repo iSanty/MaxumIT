@@ -116,3 +116,85 @@
 
 
 {% endblock barra_lateral %}
+
+
+
+{% block graficos_tablas %}
+
+
+
+
+<div class="container-fluid pt-4 px-4">
+    {% comment %} {% if msj_error %}
+    <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
+      {{msj_error}}
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div> {% endcomment %}
+
+    {% if msj_enviados%}
+    <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+      {{msj_enviados}}
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    {% elif msj_carga%}
+    <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
+      {{msj_carga}}
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+
+    {% elif msj_inicio%}
+    <div class="alert alert-secondary bg-secondary text-light border-0 alert-dismissible fade show" role="alert">
+      {{msj_inicio}}
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+
+</div>
+
+<div class="container-fluid pt-4 px-4">
+    <div class="col-sm-12 col-xl-3">
+        
+        <div class="container-fluid pt-4 px-4">
+            <h6>Actualizar lista de pedidos</h6>
+            <div class="row g-4">
+                {% csrf_token %}
+                <form action={% url 'index_saladillo'%} method = "POST"> 
+                    
+                    <button type="submit" class="btn btn-info" name="btn_carga">Actualizar Pedidos</button>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<div class="container-fluid pt-4 px-4">
+    <div class="col-sm-12 col-xl-3">
+        
+        <div class="container-fluid pt-4 px-4">
+            <h6>Enviar Mails a clientes</h6>
+            <div class="row g-4">
+                <form action={% url 'index_saladillo'%} method = "POST"> 
+                    
+                    <button type="submit" class="btn btn-info" name="btn_enviar_mail">Enviar Mails</button>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+
+{% if pedidos %}
+{{pedidos}}
+
+{% endif %}
+
+
+
+
+
+{% endblock graficos_tablas %}

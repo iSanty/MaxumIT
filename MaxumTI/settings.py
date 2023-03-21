@@ -57,7 +57,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'ckeditor',
     'webhooks',
-    'lecturas_db'
+    'lecturas_db',
+    'stg'
 ]
 
 MIDDLEWARE = [
@@ -95,15 +96,7 @@ WSGI_APPLICATION = 'MaxumTI.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'saladillo_db',
-        
-        'HOST':'localhost',
-        'PORT':'3306',
-        'USER':'root',
-        'PASSWORD':'2355',},
+    'default': {},
 
 
     'accounts_db': {
@@ -147,6 +140,7 @@ DATABASES = {
         'USER':'root',
         'PASSWORD':'2355',
     },
+    
     'aesseal_db': {
         #'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'ENGINE': 'django.db.backends.mysql',
@@ -157,15 +151,21 @@ DATABASES = {
         'USER':'root',
         'PASSWORD':'2355',
     },
-    'lecturas_db': {
+    
+    
+    'lecturas_db': {},
+    
+    'stg': {
+        
         #'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'lecturas_db',
+        'NAME': 'stpedidos',
         
-        'HOST':'192.168.1.38',
+        'HOST':'192.168.20.102',
         'PORT':'3306',
-        'USER':'NotSantiago',
-        'PASSWORD':'47442355.',
+        'USER':'santiago',
+        'PASSWORD':'santi2320',
+        
     }
     
     
@@ -178,7 +178,8 @@ DATABASE_ROUTERS = [
     'routers.casahelse_router.CasaHelseRouter',
     'routers.saladillo_router.SaladilloRouter',
     'routers.whydonna_router.WhyDonnaRouter',
-    'routers.lecturas_db_router.lecturas_db'
+    'routers.lecturas_db_router.lecturas_db',
+    'routers.stg_router.stg'
     
 ]
 

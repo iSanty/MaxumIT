@@ -4,6 +4,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST
 
+from saladillo.models import PedidoParaMail
+
 from django.conf import settings
 from django.core.mail import send_mail
 

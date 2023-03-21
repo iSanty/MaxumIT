@@ -15,6 +15,12 @@ class PedidoParaMail(models.Model):
     mail2_enviado = models.BooleanField(null=True)
     mail3_enviado = models.BooleanField(null=True)
     entregado = models.BooleanField(null=True)
+    cantidad = models.IntegerField()
+    importe_total = models.IntegerField()
+    orden_de_compra = models.CharField(max_length=128)
+    
+    fecha_creacion = models.DateField(null=True)
+    
     
     def __str__(self):
         return f'{self.nro_pedido} - {self.cliente}'

@@ -7,7 +7,7 @@ class CasaHelseRouter:
         return None
 
     def db_for_write(self, model, **hints):
-        if model._meta.app_label == 'CasaHelse':
+        if model._meta.app_label == 'casahelze':
             return 'casahelse_db'
         return None
     
