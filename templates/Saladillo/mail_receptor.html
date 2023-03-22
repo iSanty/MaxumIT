@@ -1,0 +1,18 @@
+{% extends 'Saladillo/index_saladillo.html' %}
+
+
+{% block graficos_tablas %}
+
+{% if msj %}
+{{msj}}
+{% endif %}
+
+<div class="row g-4">
+    {% csrf_token %}
+    <form action={% url 'mail_receptor'%} method = "POST"> 
+        {{form.as_table}}
+        <button type="submit" class="btn btn-info" name="btn_enviar_mail">Grabar</button>
+    </form>
+</div>
+
+{% endblock graficos_tablas %}

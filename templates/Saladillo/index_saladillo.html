@@ -52,10 +52,11 @@
                     </a>
                 </li>
                 <li>
-                    <a href={% url 'leer_saladillo' %}>
+                    <a href="#">
                         <i class="bi bi-circle"></i><span>Configurar reloj</span>
                     </a>
                 </li>
+                
                 
             </ul>
         </li>
@@ -149,21 +150,21 @@
     {% if pendientes %}
     
     <div class="alert alert-secondary bg-secondary text-light border-0 alert-dismissible fade show" role="alert">
-        Hay un total de {{pendientes}} pedidos pendientes para informar la primer instancia
+        Hay un total de {{pendientes}} pedidos pendientes para informar.
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     {% endif %}
 
     {% if msj_enviados %}
     <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert">
-        Se han enviado un total de {{msj_enviados}} mails de primera instancia.
+        Se han enviado un total de {{msj_enviados}} mails.
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
     {% endif %}
     {% if msj_no_enviado %}
     <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show" role="alert">
-        No se han enviado un total de {{msj_no_enviado}} mails de primera instancia.
+        No se han enviado un total de {{msj_no_enviado}} mails.
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     {% endif %}
@@ -193,6 +194,9 @@
         
         <div class="container-fluid pt-4 px-4">
             <h6>Enviar Mails a clientes</h6>
+            
+            <a href={% url 'mail_receptor' %}><h6>Configurar mail receptor</h6></a>
+
             <div class="row g-4">
                 {% csrf_token %}
                 <form action={% url 'index_saladillo'%} method = "POST"> 

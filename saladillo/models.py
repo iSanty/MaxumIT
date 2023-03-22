@@ -12,10 +12,10 @@ class PedidoParaMail(models.Model):
     nro_packing = models.IntegerField(null=True)
     nro_ruteo = models.IntegerField(null=True)
     mail = models.EmailField(null=True)
-    mail1_enviado = models.BooleanField(null=True)
-    mail2_enviado = models.BooleanField(null=True)
-    mail3_enviado = models.BooleanField(null=True)
-    entregado = models.BooleanField(null=True)
+    mail1_enviado = models.CharField(max_length=12)
+    mail2_enviado = models.CharField(max_length=12)
+    mail3_enviado = models.CharField(max_length=12)
+    entregado = models.CharField(max_length=126)
     cantidad = models.IntegerField()
     importe_total = models.IntegerField()
     orden_de_compra = models.CharField(max_length=128)
@@ -79,3 +79,11 @@ class PrimeraInstancia(models.Model):
     
     def __str__(self):
         return f'{self.nro_pedido}'
+    
+    
+    
+class MailReceptor(models.Model):
+    mail = models.EmailField(max_length=128)
+    
+    def __str__(self):
+        return f'{self.mail}'

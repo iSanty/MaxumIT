@@ -1,9 +1,9 @@
 from django.shortcuts import render
 
-from .models import PedidoParaMail, MaestroCliente, PrimeraInstancia
+from .models import PedidoParaMail, MaestroCliente, PrimeraInstancia, MailReceptor
 from stg.models import pedidos, clientes_emails
 from datetime import datetime, date
-from .forms import FormActualizarPedidos
+from .forms import FormActualizarPedidos, FormMailReceptor
 from .funciones import mail_primera_instancia
 
 formato_fecha = "%d/%m/%Y %H:%M:%S"
@@ -15,6 +15,47 @@ anio = hoy.year
 fecha_hoy = str(dia) + '/' + str(mes) + '/' + str(anio)
 fecha_hoy_f = datetime.strptime(fecha_hoy, formato_fecha2)
 # Create your views here.
+
+
+
+def mail_receptor(request):
+    
+    if request.method == "POST":
+        form = FormMailReceptor(request.POST)
+        if form.is_valid():
+            
+            info = form.cleaned_data
+            
+            mail_viejo = MailReceptor.objects.filter(id=1)
+            if mail_viejo:
+                nuevo_receptor = info["mail"]
+                mail_viej0 = MailReceptor.objects.get(id=1)
+                mail_viej0.mail = nuevo_receptor
+                mail_viej0.save()
+                msj = "Mail Editado correctamente"
+                
+            
+                
+                return render(request, "saladillo/mail_receptor.html", {'msj':msj, 'form':form})
+            
+            else:
+                nuevo_receptor = MailReceptor(mail=info["mail"])
+                nuevo_receptor.save()
+                msj = "Mail creado exitosamente"
+            
+                return render(request, "saladillo/mail_receptor.html", {"msj":msj,'form':form})
+    else:
+        
+        mail_en_base = MailReceptor.objects.filter(id=1)
+        
+        if not mail_en_base:
+            form = FormMailReceptor(initial={'mail':"info@saladillo.com.ar"})
+        else:
+            mail = MailReceptor.objects.get(id=1)
+            
+            form = FormMailReceptor(initial={'mail':str(mail.mail)})
+        return render(request, "saladillo/mail_receptor.html", {"form":form})
+
 
 
 def index_saladillo(request):
@@ -91,7 +132,9 @@ def index_saladillo(request):
 
             
             elif 'btn_enviar_mail' in request.POST:
-                pendientes_totales = PedidoParaMail.objects.filter(mail1_enviado=False)
+                
+                un_dia = form.cleaned_data
+                pendientes_totales = PedidoParaMail.objects.filter(fecha_creacion=un_dia['fecha'])
                 total_sin_datos = 0
                 total_enviados = 0
                 
@@ -102,10 +145,22 @@ def index_saladillo(request):
                             
                         else:
                             
-                            mail_primera_instancia(cliente=valor.cliente, importe_total=valor.importe_total, mail=valor.mail, orden_de_compra=valor.orden_de_compra, nro_pedido=valor.nro_pedido)
+                            cli = valor.cliente
+                            print(cli)
+                            mail_primera_instancia(cli, 
+                                                   importe_total=valor.importe_total, 
+                                                   mail=valor.mail, 
+                                                   orden_de_compra=valor.orden_de_compra, 
+                                                   nro_pedido=valor.nro_pedido, 
+                                                   ins1=valor.mail1_enviado, 
+                                                   ins2=valor.mail2_enviado, 
+                                                   ins3=valor.mail3_enviado,
+                                                   estado=valor.entregado)
                             total_enviados += 1
-                            valor.mail1_enviado = True
+                            valor.mail1_enviado = 'Si'
+                            
                             valor.save()
+                            
                     
                     return render(request, 'saladillo/index_saladillo.html', {'msj_enviados':total_enviados,
                                                                               'form':form,
