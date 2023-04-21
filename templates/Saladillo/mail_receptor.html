@@ -7,12 +7,48 @@
 {{msj}}
 {% endif %}
 
-<div class="row g-4">
-    {% csrf_token %}
-    <form action={% url 'mail_receptor'%} method = "POST"> 
-        {{form.as_table}}
-        <button type="submit" class="btn btn-info" name="btn_enviar_mail">Grabar</button>
-    </form>
+
+{% comment %} <div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Edicion Mail Pedido Recibido</h5>
+
+      <!-- Quill Editor Full -->
+        <p>En Asunto saldrá el estado y la información del pedido. Favor de escribir un cuerpor para el mensaje.</p>
+        <div class="quill-editor-full">
+            <p>Estimado cliente:</p>
+            <p>Su pedido ha sido recibido. Seguiremos informando a como avance el pedido.</p>
+            <p></p>
+            <p></p>
+            <p><strong>Industrias Saladillo</strong></p>
+        </div>
+        <button type="submit" class="btn btn-info" name="aaa">Grabar</button>
+    </div>
+</div> {% endcomment %}
+      <!-- End Quill Editor Full -->
+
+
+
+
+<div class="col-xxl-4 col-md-6">
+    <div class="card info-card sales-card">
+        
+        <div class="card-body">
+            <h5 class="card-title">Mail receptor</h5>
+            *Solo para desarrollo
+            <div class="row g-4">
+                {% csrf_token %}
+                <form action={% url 'mail_receptor'%} method = "POST"> 
+                    {{form.as_table}}
+                    <button type="submit" class="btn btn-info" name="btn_enviar_mail">Grabar</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+<a href={% url 'config_mail_1' %}><button type="submit" class="btn btn-info" name="aaa">Configurar cuerpo del Mail</a></button>
+
+
 
 {% endblock graficos_tablas %}

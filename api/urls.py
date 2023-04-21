@@ -5,7 +5,7 @@ router = routers.DefaultRouter()
 from .api import PedidoParaMailViewSet
 
 
-router.register('api', PedidoParaMailViewSet, 'NuevoPedido')
+#router.register('api', PedidoParaMailViewSet, 'NuevoPedido')
 
 
 urlpatterns = router.urls

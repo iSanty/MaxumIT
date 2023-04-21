@@ -39,11 +39,24 @@ class ConfiguracionMail(models.Model):
     
 class CuerpoMail(models.Model):
     instancia = models.IntegerField()
-    body = RichTextField(max_length=512)
+    body_uno = RichTextField(max_length=512)
+    body_dos = RichTextField(max_length=512)
+    body_tres = RichTextField(max_length=512)
+    body_cuatro = RichTextField(max_length=512)
+    body_cinco = RichTextField(max_length=512)
+    body_seis = RichTextField(max_length=512)
+    body_siete = RichTextField(max_length=512)
+    body_ocho = RichTextField(max_length=512)
+    body_nueve = RichTextField(max_length=512)
+    body_diez = RichTextField(max_length=512)
+    body_once = RichTextField(max_length=512)
+    body_doce = RichTextField(max_length=512)
+    body_trece = RichTextField(max_length=512)
+    body_catorce = RichTextField(max_length=512)
     
     
     def __str__(self):
-        return f'{self.body}'
+        return f'{self.body_uno}'
     
     
     

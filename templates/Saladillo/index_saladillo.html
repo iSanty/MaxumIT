@@ -41,7 +41,7 @@
                         <i class="bi bi-circle"></i><span>Monitor</span>
                     </a>
                 </li>
-                <li>
+                {% comment %} <li>
                     <a href="#">
                         <i class="bi bi-circle"></i><span>Detalle Enviados</span>
                     </a>
@@ -50,10 +50,10 @@
                     <a href="#">
                         <i class="bi bi-circle"></i><span>Detalle No Enviados</span>
                     </a>
-                </li>
+                </li> {% endcomment %}
                 <li>
-                    <a href="#">
-                        <i class="bi bi-circle"></i><span>Configurar reloj</span>
+                    <a href={% url 'mail_receptor' %}>
+                        <i class="bi bi-circle"></i><span>Configuración</span>
                     </a>
                 </li>
                 
@@ -141,10 +141,10 @@
 
 
     {% elif msj_inicio%}
-    <div class="alert alert-secondary bg-secondary text-light border-0 alert-dismissible fade show" role="alert">
+    {% comment %} <div class="alert alert-secondary bg-secondary text-light border-0 alert-dismissible fade show" role="alert">
       {{msj_inicio}}
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+    </div> {% endcomment %}
     {% endif %}
 
     {% if pendientes %}
@@ -172,42 +172,149 @@
 
 </div>
 
-<div class="container-fluid pt-4 px-4">
-    <div class="col-sm-12 col-xl-3">
-        
-        <div class="container-fluid pt-4 px-4">
-            <h6>Actualizar lista de pedidos</h6>
-            <div class="row g-4">
-                {% csrf_token %}
-                <form action={% url 'index_saladillo'%} method = "POST"> 
-                    {{form.as_table}}
-                    <button type="submit" class="btn btn-info" name="btn_carga">Actualizar Pedidos</button>
-                </form>
+<section class="section dashboard">
+    <div class="row">
+
+      <!-- Left side columns -->
+        <div class="col-lg-8">
+            <div class="row">
+
+                
+                <div class="col-xxl-4 col-md-6">
+                    *Modo desarrollo
+                    <div class="card info-card sales-card">
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">Actualizar lista de pedidos</h5>
+                            <div class="row g-4">
+                                {% csrf_token %}
+                                <form action={% url 'index_saladillo'%} method = "POST"> 
+                                    {{form.as_table}}
+                                    <button type="submit" class="btn btn-info" name="btn_carga">Actualizar Pedidos</button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                
+                <div class="col-xxl-4 col-md-6">
+                    *Modo desarrollo
+                    <div class="card info-card revenue-card">
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">Enviar Mails Pendientes</h5>
+                            <div class="row g-4">
+                                {% csrf_token %}
+                                <form action={% url 'index_saladillo'%} method = "POST"> 
+                                    {{form2.as_table}}
+                                    <button type="submit" class="btn btn-info" name="btn_enviar_mail">Enviar Mails</button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
             </div>
         </div>
-        
     </div>
-</div>
 
-<div class="container-fluid pt-4 px-4">
-    <div class="col-sm-12 col-xl-3">
-        
-        <div class="container-fluid pt-4 px-4">
-            <h6>Enviar Mails a clientes</h6>
-            
-            <a href={% url 'mail_receptor' %}><h6>Configurar mail receptor</h6></a>
+</section>
 
-            <div class="row g-4">
-                {% csrf_token %}
-                <form action={% url 'index_saladillo'%} method = "POST"> 
-                    {{form2.as_table}}
-                    <button type="submit" class="btn btn-info" name="btn_enviar_mail">Enviar Mails</button>
-                </form>
+
+
+<section class="section dashboard">
+    <div class="row">
+
+      <!-- Left side columns -->
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-xxl-4 col-md-12">
+                    <div class="card info-card sales-card">
+                        
+                        
+                            
+                        <div class="card-body">
+                            <h5 class="card-title">Reporte de pedidos.<span>/Hoy</span></h5>
+                                <div class="row g-4">
+                    <!-- Line Chart -->
+                                    <div id="reportsChart"></div>
+
+                                    <script>
+                                    document.addEventListener("DOMContentLoaded", () => {
+                                        new ApexCharts(document.querySelector("#reportsChart"), {
+                                        series: [{
+                                            name: 'Pedidos Nuevos',
+                                            data: [31, 40, 28, 51, 42, 82, 56],
+                                        }, {
+                                            name: 'Pedidos en preparación',
+                                            data: [11, 32, 45, 32, 34, 52, 41]
+                                        }, {
+                                            name: 'Pedidos en distribución',
+                                            data: [15, 11, 32, 18, 9, 24, 11]
+                                        }, {
+                                            name: 'Pedidos entregados',
+                                            data: [17, 20, 15, 13, 8, 29, 7]
+                                        }],
+                                        chart: {
+                                            height: 350,
+                                            type: 'area',
+                                            toolbar: {
+                                            show: false
+                                            },
+                                        },
+                                        markers: {
+                                            size: 4
+                                        },
+                                        colors: ['#4154f1', '#FFFF00', '#ff771d', '#2eca6a'],
+                                        fill: {
+                                            type: "gradient",
+                                            gradient: {
+                                            shadeIntensity: 1,
+                                            opacityFrom: 0.3,
+                                            opacityTo: 0.4,
+                                            stops: [0, 90, 100]
+                                            }
+                                        },
+                                        dataLabels: {
+                                            enabled: false
+                                        },
+                                        stroke: {
+                                            curve: 'smooth',
+                                            width: 2
+                                        },
+                                        xaxis: {
+                                            type: 'datetime',
+                                            categories: [
+                                            "2018-09-19T09:00:00.000Z", 
+                                            "2018-09-19T13:00:00.000Z", 
+                                            "2018-09-19T15:00:00.000Z", 
+                                            "2018-09-19T16:00:00.000Z", 
+                                            "2018-09-19T17:30:00.000Z", 
+                                            "2018-09-19T19:00:00.000Z", 
+                                            "2018-09-19T22:00:00.000Z"
+                                            ]
+                                        },
+                                        tooltip: {
+                                            x: {
+                                            format: 'dd/MM/yy HH:mm'
+                                            },
+                                        }
+                                        }).render();
+                                    });
+                                    </script>
+                                    <!-- End Line Chart -->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        
     </div>
-</div>
+</section>
 
 
 

@@ -1,0 +1,46 @@
+{% extends 'Saladillo/index_saladillo.html' %}
+
+
+
+{% block graficos_tablas %}
+
+
+
+<form action='#' method="post" enctype="multipart/form-data">
+    {%csrf_token%}
+    
+    
+    {{form.body_uno | safe}}
+    {{form_selector}}
+    {{form.body_dos | safe}}
+    {{form_selector1}}
+    {{form.body_tres | safe}}
+    {{form_selector2}}
+    {{form.body_cuatro | safe}}
+    {{form_selector3}}
+    {{form.body_cinco | safe}}
+    {{form_selector4}}
+    {{form.body_seis | safe}}
+    {{form_selector5}}
+    {{form.body_siete | safe}}
+    {{form_selector6}}
+    {{form.body_ocho | safe}}
+    {{form_selector7}}
+    {{form.body_nueve | safe}}
+    {{form_selector8}}
+    {{form.body_diez | safe}}
+    {{form_selector9}}
+    {{form.body_once | safe}}
+    {{form_selector10}}
+    {{form.body_doce | safe}}
+    {{form_selector11}}
+    {{form.body_trece | safe}}
+    {{form_selector12}}
+    {{form.body_catorce | safe}}
+    {{form.media}}
+    
+    <button type="submit" class="btn btn-info" name="aaa">Guardar</button>
+</form>
+
+
+{% endblock graficos_tablas %}

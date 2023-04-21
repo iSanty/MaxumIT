@@ -1,9 +1,9 @@
 from django.shortcuts import render
 
-from .models import PedidoParaMail, MaestroCliente, PrimeraInstancia, MailReceptor
+from .models import PedidoParaMail, MaestroCliente, PrimeraInstancia, MailReceptor, CuerpoMail
 from stg.models import pedidos, clientes_emails
 from datetime import datetime, date
-from .forms import FormActualizarPedidos, FormMailReceptor
+from .forms import FormActualizarPedidos, FormMailReceptor, FormCuerpoMail, FormSelector, FormSelector1, FormSelector2, FormSelector3, FormSelector4, FormSelector5, FormSelector6, FormSelector7, FormSelector8, FormSelector9, FormSelector10, FormSelector11, FormSelector12
 from .funciones import mail_primera_instancia
 
 formato_fecha = "%d/%m/%Y %H:%M:%S"
@@ -55,6 +55,48 @@ def mail_receptor(request):
             
             form = FormMailReceptor(initial={'mail':str(mail.mail)})
         return render(request, "saladillo/mail_receptor.html", {"form":form})
+
+
+
+def config_mail_1(request):
+    
+    if request.method == 'POST':
+        form = FormCuerpoMail(request.POST)
+        
+        if form.is_valid():
+            informacion = form.cleaned_data
+            
+        else:
+            
+            msj_error = 'Formulario inválido'
+            return render(request, 'saladillo/config_mail.html', {'msj_error':msj_error})    
+        
+        return render(request, 'saladillo/config_mail.html', {'msj_carga':'POST'})
+    
+    else:
+        
+        
+        
+        form = FormCuerpoMail()
+        form_selector = FormSelector()
+        form_selector1 = FormSelector1()
+        form_selector2 = FormSelector2()
+        form_selector3 = FormSelector3()
+        form_selector4 = FormSelector4()
+        form_selector5 = FormSelector5()
+        form_selector6 = FormSelector6()
+        form_selector7 = FormSelector7()
+        form_selector8 = FormSelector8()
+        form_selector9 = FormSelector9()
+        form_selector10 = FormSelector10()
+        form_selector11 = FormSelector11()
+        form_selector12 = FormSelector12()
+        
+        return render(request, 'saladillo/config_mail.html', {'form':form, 'form_selector':form_selector, 'form_selector1':form_selector1, 'form_selector2':form_selector2, 'form_selector3':form_selector3, 'form_selector4':form_selector4, 'form_selector5':form_selector5, 'form_selector6':form_selector6, 'form_selector7':form_selector7, 'form_selector8':form_selector8, 'form_selector9':form_selector9, 'form_selector10':form_selector10, 'form_selector11':form_selector11, 'form_selector12':form_selector12})
+    
+    
+    
+
 
 
 
