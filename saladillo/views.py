@@ -5,6 +5,7 @@ from stg.models import pedidos, clientes_emails
 from datetime import datetime, date
 from .forms import FormActualizarPedidos, FormMailReceptor, FormCuerpoMail, FormSelector, FormSelector1, FormSelector2, FormSelector3, FormSelector4, FormSelector5, FormSelector6, FormSelector7, FormSelector8, FormSelector9, FormSelector10, FormSelector11, FormSelector12
 from .funciones import mail_primera_instancia
+from django.contrib.auth.decorators import login_required
 
 formato_fecha = "%d/%m/%Y %H:%M:%S"
 formato_fecha2 = "%d/%m/%Y"
@@ -17,7 +18,7 @@ fecha_hoy_f = datetime.strptime(fecha_hoy, formato_fecha2)
 # Create your views here.
 
 
-
+@login_required
 def mail_receptor(request):
     
     if request.method == "POST":
@@ -57,7 +58,7 @@ def mail_receptor(request):
         return render(request, "saladillo/mail_receptor.html", {"form":form})
 
 
-
+@login_required
 def config_mail_1(request):
     
     if request.method == 'POST':
@@ -99,7 +100,7 @@ def config_mail_1(request):
 
 
 
-
+@login_required
 def index_saladillo(request):
     
     if request.method == 'POST':
@@ -237,7 +238,7 @@ def index_saladillo(request):
 
 
 
-
+@login_required
 def monitor(request):
     
     enviados = PrimeraInstancia.objects.all()

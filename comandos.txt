@@ -1,5 +1,5 @@
 
-python manage.py migrate --database=saladillo_db
+python manage.py migrate --database=accounts_db
 
 
 
