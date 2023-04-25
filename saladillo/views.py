@@ -21,6 +21,7 @@ fecha_hoy_f = datetime.strptime(fecha_hoy, formato_fecha2)
 @login_required
 def mail_receptor(request):
     
+    
     if request.method == "POST":
         form = FormMailReceptor(request.POST)
         if form.is_valid():
@@ -61,18 +62,41 @@ def mail_receptor(request):
 @login_required
 def config_mail_1(request):
     
+    form = FormCuerpoMail()
+    form_selector = FormSelector()
+    form_selector1 = FormSelector1()
+    form_selector2 = FormSelector2()
+    form_selector3 = FormSelector3()
+    form_selector4 = FormSelector4()
+    form_selector5 = FormSelector5()
+    form_selector6 = FormSelector6()
+    form_selector7 = FormSelector7()
+    form_selector8 = FormSelector8()
+    form_selector9 = FormSelector9()
+    form_selector10 = FormSelector10()
+    form_selector11 = FormSelector11()
+    form_selector12 = FormSelector12()
+    
     if request.method == 'POST':
         form = FormCuerpoMail(request.POST)
         
         if form.is_valid():
             informacion = form.cleaned_data
             
+            cuerpo = informacion['body_uno']
+            print(cuerpo)
+            
+            return render(request, 'saladillo/config_mail.html', {'form':form, 'form_selector':form_selector, 'form_selector1':form_selector1, 'form_selector2':form_selector2, 'form_selector3':form_selector3, 'form_selector4':form_selector4, 'form_selector5':form_selector5, 'form_selector6':form_selector6, 'form_selector7':form_selector7, 'form_selector8':form_selector8, 'form_selector9':form_selector9, 'form_selector10':form_selector10, 'form_selector11':form_selector11, 'form_selector12':form_selector12})
+            
+            
+            
         else:
             
             msj_error = 'Formulario inválido'
-            return render(request, 'saladillo/config_mail.html', {'msj_error':msj_error})    
+            print('error')
+            return render(request, 'saladillo/config_mail.html', {'form':form, 'form_selector':form_selector, 'form_selector1':form_selector1, 'form_selector2':form_selector2, 'form_selector3':form_selector3, 'form_selector4':form_selector4, 'form_selector5':form_selector5, 'form_selector6':form_selector6, 'form_selector7':form_selector7, 'form_selector8':form_selector8, 'form_selector9':form_selector9, 'form_selector10':form_selector10, 'form_selector11':form_selector11, 'form_selector12':form_selector12})
         
-        return render(request, 'saladillo/config_mail.html', {'msj_carga':'POST'})
+        
     
     else:
         

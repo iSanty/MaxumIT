@@ -41,7 +41,7 @@ def registrarse(request):
         form = MyUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('inicio')
         else:
             return render(request, 'accounts/registrarse.html', {'form':form})
         

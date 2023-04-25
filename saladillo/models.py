@@ -38,21 +38,21 @@ class ConfiguracionMail(models.Model):
     
     
 class CuerpoMail(models.Model):
-    instancia = models.IntegerField()
-    body_uno = RichTextField(max_length=512)
-    body_dos = RichTextField(max_length=512)
-    body_tres = RichTextField(max_length=512)
-    body_cuatro = RichTextField(max_length=512)
-    body_cinco = RichTextField(max_length=512)
-    body_seis = RichTextField(max_length=512)
-    body_siete = RichTextField(max_length=512)
-    body_ocho = RichTextField(max_length=512)
-    body_nueve = RichTextField(max_length=512)
-    body_diez = RichTextField(max_length=512)
-    body_once = RichTextField(max_length=512)
-    body_doce = RichTextField(max_length=512)
-    body_trece = RichTextField(max_length=512)
-    body_catorce = RichTextField(max_length=512)
+    instancia = models.IntegerField(null=True)
+    body_uno = RichTextField(max_length=512, null=True)
+    body_dos = RichTextField(max_length=512, null=True)
+    body_tres = RichTextField(max_length=512, null=True)
+    body_cuatro = RichTextField(max_length=512, null=True)
+    body_cinco = RichTextField(max_length=512, null=True)
+    body_seis = RichTextField(max_length=512, null=True)
+    body_siete = RichTextField(max_length=512, null=True)
+    body_ocho = RichTextField(max_length=512, null=True)
+    body_nueve = RichTextField(max_length=512, null=True)
+    body_diez = RichTextField(max_length=512, null=True)
+    body_once = RichTextField(max_length=512, null=True)
+    body_doce = RichTextField(max_length=512, null=True)
+    body_trece = RichTextField(max_length=512, null=True)
+    body_catorce = RichTextField(max_length=512, null=True)
     
     
     def __str__(self):

@@ -95,26 +95,25 @@ class FormSelector12(forms.Form):
     #     'orden_de_compra'
     # )
     
-class FormCuerpoMail(forms.ModelForm):
-    class Meta:
-        model = CuerpoMail
-        fields = ('body_uno', 'body_dos', 'body_tres', 'body_cuatro','body_cinco','body_seis','body_siete','body_ocho','body_nueve','body_diez','body_once','body_doce','body_trece','body_catorce')
-    
-    
 # class FormCuerpoMail(forms.Form):
+#     class Meta:
+#         model = CuerpoMail
+#         fields = ('body_uno', 'body_dos', 'body_tres', 'body_cuatro','body_cinco','body_seis','body_siete','body_ocho','body_nueve','body_diez','body_once','body_doce','body_trece','body_catorce')
     
-#     instancia = forms.IntegerField()
-#     body_uno = RichTextFormField()
-#     body_dos = RichTextFormField()
-#     body_tres = RichTextFormField()
-#     body_cuatro = RichTextFormField()
-#     body_cinco = RichTextFormField()
-#     body_seis = RichTextFormField()
-#     body_siete = RichTextFormField()
-#     body_ocho = RichTextFormField()
-#     body_nueve = RichTextFormField()
-#     body_diez = RichTextFormField()
-#     body_once = RichTextFormField()
-#     body_doce = RichTextFormField()
-#     body_trece = RichTextFormField()
-#     body_catorce = RichTextFormField()
+    
+class FormCuerpoMail(forms.Form):
+    
+    body_uno = RichTextFormField(required=False)
+    body_dos = RichTextFormField(required=False)
+    body_tres = RichTextFormField(required=False)
+    body_cuatro = RichTextFormField(required=False)
+    body_cinco = RichTextFormField(required=False)
+    body_seis = RichTextFormField(required=False)
+    body_siete = RichTextFormField(required=False)
+    body_ocho = RichTextFormField(required=False)
+    body_nueve = RichTextFormField(required=False)
+    body_diez = RichTextFormField(required=False)
+    body_once = RichTextFormField(required=False)
+    body_doce = RichTextFormField(required=False)
+    body_trece = RichTextFormField(required=False)
+    body_catorce = RichTextFormField(required=False)

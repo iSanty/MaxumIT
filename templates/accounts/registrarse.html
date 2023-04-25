@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+
+
+
+{% block titulo1 %}
+
+<title>Registrar usuario</title>
+{% endblock titulo1 %}
+
+
+
+
+
+{% block graficos_tablas %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <form action ={% url 'registrarse' %} method = "post"> 
+            {% csrf_token %}
+            <table>
+            {{form.as_table}}
+            </table>
+            <button type="submit" class="btn btn-info">Registrar Usuario</button>
+        </form>
+    </div>
+</div>
+{% endblock graficos_tablas %}
