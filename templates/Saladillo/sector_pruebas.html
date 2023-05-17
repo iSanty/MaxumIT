@@ -1,0 +1,234 @@
+{% extends 'saladillo/index_saladillo.html' %}
+
+
+
+{% block graficos_tablas %}
+{% if msj %}
+<div class="alert alert-secondary bg-secondary text-light border-0 alert-dismissible fade show" role="alert">
+{{msj}}
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+<div class="alert alert-secondary bg-secondary text-light border-0 alert-dismissible fade show" role="alert">
+    <form action={% url 'sector_pruebas'%} method = "POST">
+    <p>Crear Pedido - </p>
+    {{form_crear_pedido}}
+    <button type="submit" class="btn btn-info" name="btn_crear_pedido">Grabar</button>
+
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </form>
+</div>
+
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-white rounded h-100 p-4">
+                <h6 class="mb-4">Detalle de pedidos con estado RECIBIDO: </h6>
+                {% comment %} <a href={% url 'informe_global' %}><button class="btn btn-success">Actualizar</a></button> {% endcomment %}
+                <table class="table table-bordered border-primary">
+                    <thead>
+                        <tr>
+                            
+                            <th scope="col">Nro Pedido</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Cod. Cliente</th>
+                            <th scope="col">Razon Social</th>
+                            <th scope="col">Fecha de estado</th>
+                            <th scope="col">Fecha Creacion de pedido</th>
+                            
+                            
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for valor in lista_pedidos_recibidos %}
+                        <tr>
+                            
+                            <th>{{valor.nro_pedido}}</th>
+                            <th>{{valor.estado}}</th>
+                            <td>{{valor.codigo_cliente}}</td>
+                            <td>{{valor.cliente}}</td>
+                            <td>{{valor.fecha_estado | date:"d/m/Y"}}</td>
+                            <td>{{valor.fecha_creacion | date:"d/m/Y"}}</td>
+                            
+
+                            
+                            <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'subir_estado' valor.id %}>Subir estado</a></button></td> 
+                            <td><button type="button" class="btn btn-outline-danger m-2"><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %} >Enviar Mail</a></button></td>
+  
+                            
+  
+                        </tr>
+                        
+                        {% endfor %}
+  
+  
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  </div>   
+
+  <div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-white rounded h-100 p-4">
+                <h6 class="mb-4">Detalle de pedidos con estado PREPARADO: </h6>
+                {% comment %} <a href={% url 'informe_global' %}><button class="btn btn-success">Actualizar</a></button> {% endcomment %}
+                <table class="table table-bordered border-primary">
+                    <thead>
+                        <tr>
+                            
+                            <th scope="col">Nro Pedido</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Cod. Cliente</th>
+                            <th scope="col">Razon Social</th>
+                            <th scope="col">Fecha de estado</th>
+                            <th scope="col">Fecha Creacion de pedido</th>
+                            
+                            
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for valor in lista_pedidos_preparados %}
+                        <tr>
+                            
+                            <th>{{valor.nro_pedido}}</th>
+                            <th>{{valor.estado_2}}</th>
+                            <td>{{valor.codigo_cliente}}</td>
+                            <td>{{valor.cliente}}</td>
+                            <td>{{valor.fecha_estado_2 | date:"d/m/Y"}}</td>
+                            <td>{{valor.fecha_creacion | date:"d/m/Y"}}</td>
+                            
+
+                            
+                            <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'subir_estado' valor.id %}>Subir estado</a></button></td> 
+                            <td><button type="button" class="btn btn-outline-danger m-2"><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %} >Enviar Mail</a></button></td>
+                            <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'bajar_estado' valor.id %} >Bajar estado</a></button></td>
+  
+                            
+  
+                        </tr>
+                        
+                        {% endfor %}
+  
+  
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  </div>   
+
+  <div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-white rounded h-100 p-4">
+                <h6 class="mb-4">Detalle de pedidos con estado RUTEADO: </h6>
+                {% comment %} <a href={% url 'informe_global' %}><button class="btn btn-success">Actualizar</a></button> {% endcomment %}
+                <table class="table table-bordered border-primary">
+                    <thead>
+                        <tr>
+                            
+                            <th scope="col">Nro Pedido</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Cod. Cliente</th>
+                            <th scope="col">Razon Social</th>
+                            <th scope="col">Fecha de estado</th>
+                            <th scope="col">Fecha Creacion de pedido</th>
+                            
+                            
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for valor in lista_pedidos_ruteado %}
+                        <tr>
+                            
+                            <th>{{valor.nro_pedido}}</th>
+                            <th>{{valor.estado_3}}</th>
+                            <td>{{valor.codigo_cliente}}</td>
+                            <td>{{valor.cliente}}</td>
+                            <td>{{valor.fecha_estado_3 | date:"d/m/Y"}}</td>
+                            <td>{{valor.fecha_creacion | date:"d/m/Y"}}</td>
+                            
+
+                            
+                            <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'subir_estado' valor.id %}>Subir estado</a></button></td> 
+                            <td><button type="button" class="btn btn-outline-danger m-2"><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %} >Enviar Mail</a></button></td>
+                            <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'bajar_estado' valor.id %} >Bajar estado</a></button></td>
+                            
+  
+                        </tr>
+                        
+                        {% endfor %}
+  
+  
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  </div>   
+
+
+  <div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-white rounded h-100 p-4">
+                <h6 class="mb-4">Detalle de pedidos con estado ENTREGADO: </h6>
+                {% comment %} <a href={% url 'informe_global' %}><button class="btn btn-success">Actualizar</a></button> {% endcomment %}
+                <table class="table table-bordered border-primary">
+                    <thead>
+                        <tr>
+                            
+                            <th scope="col">Nro Pedido</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Cod. Cliente</th>
+                            <th scope="col">Razon Social</th>
+                            <th scope="col">Fecha de estado</th>
+                            <th scope="col">Fecha Creacion de pedido</th>
+                            
+                            
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for valor in lista_pedidos_entregado %}
+                        <tr>
+                            
+                            <th>{{valor.nro_pedido}}</th>
+                            <th>{{valor.estado_4}}</th>
+                            <td>{{valor.codigo_cliente}}</td>
+                            <td>{{valor.cliente}}</td>
+                            <td>{{valor.fecha_estado_4 | date:"d/m/Y"}}</td>
+                            <td>{{valor.fecha_creacion | date:"d/m/Y"}}</td>
+                            
+
+                            
+                              
+                            <td><button type="button" class="btn btn-outline-danger m-2"><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %} >Enviar Mail</a></button></td>
+                            <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'bajar_estado' valor.id %}>Bajar estado</a></button></td>
+                            <td><button type="button" class="btn btn-outline-danger m-2"><a href='#'{% comment %}{% url 'editar_global' valor.id %}{% endcomment %}>Ver documento</a></button></td>
+                            
+  
+                        </tr>
+                        
+                        {% endfor %}
+  
+  
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  </div>   
+
+
+
+
+
+{% endblock graficos_tablas %}

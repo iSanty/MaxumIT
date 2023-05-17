@@ -26,7 +26,7 @@
         <li class="nav-item">
             <a class="nav-link " href={% url 'index_saladillo' %}>
             <i class="bx bxs-home"></i>
-            <span>Menu Principal</span>
+            <span>Dashboard</span>
             
             </a>
         </li>
@@ -56,6 +56,11 @@
                         <i class="bi bi-circle"></i><span>Configuración</span>
                     </a>
                 </li>
+                <li>
+                    <a href={% url 'sector_pruebas' %}>
+                        <i class="bi bi-circle"></i><span>Sector Pruebas</span>
+                    </a>
+                </li>
                 
                 
             </ul>
@@ -71,7 +76,7 @@
                     <a href="#">
                         <i class="bi bi-circle"></i><span>{{request.user.username}}</span>
                     </a>
-                    <a href="#">
+                    <a href={% url 'logout' %}>
                         <i class="bi bi-circle"></i><span>Cerrar sesión</span>
                     </a>
                 {% else %}
@@ -176,7 +181,7 @@
     <div class="row">
 
       <!-- Left side columns -->
-        <div class="col-lg-8">
+        {% comment %} <div class="col-lg-8">
             <div class="row">
 
                 
@@ -217,14 +222,14 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> {% endcomment %}
     </div>
 
 </section>
 
 
 
-<section class="section dashboard">
+{% comment %} <section class="section dashboard">
     <div class="row">
 
       <!-- Left side columns -->
@@ -314,7 +319,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> {% endcomment %}
 
 
 

@@ -1,20 +1,20 @@
-class SaladilloRouter:
+class BotRouter:
 
     
     def db_for_read(self, model, **hints):
-        if model._meta.app_label == 'saladillo':
+        if model._meta.app_label == 'bot':
             return 'saladillo_db'
         return None
 
     def db_for_write(self, model, **hints):
-        if model._meta.app_label == 'saladillo':
+        if model._meta.app_label == 'bot':
             return 'saladillo_db'
         return None
     
     def allow_relation(self, obj1, obj2, **hints):
         if(
-            obj1._meta.app_label == 'saladillo' or
-            obj2._meta.app_label == 'saladillo'
+            obj1._meta.app_label == 'bot' or
+            obj2._meta.app_label == 'bot'
         ):
             return True
         
@@ -22,7 +22,8 @@ class SaladilloRouter:
         return None
     
     def allow_migrate(self, db, app_label, model_name=None, **hints):
-        if app_label == 'saladillo':
+        if app_label == 'bot':
             return db == 'saladillo_db'
         
         return None
+    

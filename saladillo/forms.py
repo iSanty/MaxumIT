@@ -3,7 +3,7 @@
 
 from django import forms
 from ckeditor.fields import RichTextFormField
-from .models import CuerpoMail, PedidoParaMail
+from .models import CuerpoMail, PedidoParaMail, Estados
 
 
 fields_mails = (
@@ -117,3 +117,28 @@ class FormCuerpoMail(forms.Form):
     body_doce = RichTextFormField(required=False)
     body_trece = RichTextFormField(required=False)
     body_catorce = RichTextFormField(required=False)
+    
+    
+    
+class FormCambiarEstado(forms.Form):
+    estado = forms.ModelChoiceField(queryset=Estados.objects.all())
+    
+    
+class FormCrearCliente(forms.Form):
+    codigo = forms.IntegerField()
+    nombre = forms.CharField()
+    domicilio = forms.CharField()
+    localidad = forms.CharField()
+    cod_loc = forms.IntegerField()
+    provincia = forms.CharField()
+    telefono = forms.CharField()
+    cuit = forms.CharField()
+    cond_iva = forms.CharField()
+    
+    
+class FormCrearPedido(forms.Form):
+    codigo_cliente = forms.IntegerField()
+    cliente = forms.CharField()
+    nro_pedido = forms.IntegerField()
+    
+    mail = forms.EmailField()

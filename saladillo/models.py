@@ -3,7 +3,12 @@ from ckeditor.fields import RichTextField
 # Create your models here.
 
 
-
+class Estados(models.Model):
+    estado = models.CharField(max_length=128)
+    
+    def __str__(self):
+        return f'{self.estado}'
+        
 
 class PedidoParaMail(models.Model):
     codigo_cliente = models.IntegerField()
@@ -19,8 +24,16 @@ class PedidoParaMail(models.Model):
     cantidad = models.IntegerField()
     importe_total = models.IntegerField()
     orden_de_compra = models.CharField(max_length=128)
-    
+    estado = models.CharField(max_length=128)
+    estado_2 = models.CharField(max_length=128)
+    estado_3 = models.CharField(max_length=128)
+    estado_4 = models.CharField(max_length=128)
+
     fecha_creacion = models.DateField(null=True)
+    fecha_estado = models.DateField(null=True)
+    fecha_estado_2 = models.DateField(null=True)
+    fecha_estado_3 = models.DateField(null=True)
+    fecha_estado_4 = models.DateField(null=True)
     
     
     def __str__(self):

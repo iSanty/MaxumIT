@@ -58,7 +58,8 @@ INSTALLED_APPS = [
     'ckeditor',
     'webhooks',
     'lecturas_db',
-    'stg'
+    'stg',
+    'twilio'
 ]
 
 MIDDLEWARE = [
@@ -178,7 +179,8 @@ DATABASE_ROUTERS = [
     'routers.saladillo_router.SaladilloRouter',
     'routers.whydonna_router.WhyDonnaRouter',
     'routers.lecturas_db_router.lecturas_db',
-    'routers.stg_router.stg'
+    'routers.stg_router.stg',
+    'routers.bot_router.BotRouter'
     
 ]
 
@@ -213,6 +215,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+APPEND_SLASH=False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

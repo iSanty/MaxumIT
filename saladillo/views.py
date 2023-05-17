@@ -3,7 +3,7 @@ from django.shortcuts import render
 from .models import PedidoParaMail, MaestroCliente, PrimeraInstancia, MailReceptor, CuerpoMail
 from stg.models import pedidos, clientes_emails
 from datetime import datetime, date
-from .forms import FormActualizarPedidos, FormMailReceptor, FormCuerpoMail, FormSelector, FormSelector1, FormSelector2, FormSelector3, FormSelector4, FormSelector5, FormSelector6, FormSelector7, FormSelector8, FormSelector9, FormSelector10, FormSelector11, FormSelector12
+from .forms import FormActualizarPedidos, FormMailReceptor, FormCuerpoMail, FormSelector, FormSelector1, FormSelector2, FormSelector3, FormSelector4, FormSelector5, FormSelector6, FormSelector7, FormSelector8, FormSelector9, FormSelector10, FormSelector11, FormSelector12, FormCrearCliente, FormCrearPedido, FormCambiarEstado
 from .funciones import mail_primera_instancia
 from django.contrib.auth.decorators import login_required
 
@@ -17,6 +17,259 @@ fecha_hoy = str(dia) + '/' + str(mes) + '/' + str(anio)
 fecha_hoy_f = datetime.strptime(fecha_hoy, formato_fecha2)
 # Create your views here.
 
+
+@login_required
+def subir_estado(request, id):
+    pedido = PedidoParaMail.objects.get(id=id)
+    if pedido.estado == 'Recibido' and pedido.estado_2 == '' and pedido.estado_3 == '' and pedido.estado_4 == '':
+        pedido.estado_2 = 'Preparado'
+        pedido.save()
+        msj = 'Cambio de estado correcto. El pedido pasa a Preparado'
+        lista_1 = PedidoParaMail.objects.filter(estado_4="")
+        lista_2 = lista_1.filter(estado_3="")
+        lista_3 = lista_2.filter(estado_2='')
+        
+        
+        lista_pedidos_recibidos = lista_3.filter(estado='Recibido')
+        lista_pedidos_preparados = lista_2.filter(estado_2='Preparado')
+        lista_pedidos_ruteado = lista_1.filter(estado_3='Ruteado')
+        lista_pedidos_entregado = PedidoParaMail.objects.filter(estado_4='Entregado')
+        form_crear_pedido = FormCrearPedido()
+        return render(request, 'saladillo/sector_pruebas.html', {'form_crear_pedido':form_crear_pedido,
+                                                             'lista_pedidos_recibidos':lista_pedidos_recibidos,
+                                                             'lista_pedidos_preparados':lista_pedidos_preparados,
+                                                             'lista_pedidos_ruteado': lista_pedidos_ruteado,
+                                                             'lista_pedidos_entregado': lista_pedidos_entregado,
+                                                             'msj':msj
+                                                             })
+    
+    elif pedido.estado == 'Recibido' and pedido.estado_2 == 'Preparado' and pedido.estado_3 == '' and pedido.estado_4 == '':
+        pedido.estado_3 = 'Ruteado'
+        pedido.save()
+        msj = 'Cambio de estado correcto. El pedido pasa a Ruteado'
+        lista_1 = PedidoParaMail.objects.filter(estado_4="")
+        lista_2 = lista_1.filter(estado_3="")
+        lista_3 = lista_2.filter(estado_2='')
+        
+        
+        lista_pedidos_recibidos = lista_3.filter(estado='Recibido')
+        lista_pedidos_preparados = lista_2.filter(estado_2='Preparado')
+        lista_pedidos_ruteado = lista_1.filter(estado_3='Ruteado')
+        lista_pedidos_entregado = PedidoParaMail.objects.filter(estado_4='Entregado')
+        form_crear_pedido = FormCrearPedido()
+        return render(request, 'saladillo/sector_pruebas.html', {'form_crear_pedido':form_crear_pedido,
+                                                             'lista_pedidos_recibidos':lista_pedidos_recibidos,
+                                                             'lista_pedidos_preparados':lista_pedidos_preparados,
+                                                             'lista_pedidos_ruteado': lista_pedidos_ruteado,
+                                                             'lista_pedidos_entregado': lista_pedidos_entregado,
+                                                             'msj':msj
+                                                             })
+    elif pedido.estado == 'Recibido' and pedido.estado_2 == 'Preparado' and pedido.estado_3 == 'Ruteado' and pedido.estado_4 == '':
+        pedido.estado_4 = 'Entregado'
+        pedido.save()
+        msj = 'Cambio de estado correcto. El pedido pasa a Entregado'
+        lista_1 = PedidoParaMail.objects.filter(estado_4="")
+        lista_2 = lista_1.filter(estado_3="")
+        lista_3 = lista_2.filter(estado_2='')
+        
+        
+        lista_pedidos_recibidos = lista_3.filter(estado='Recibido')
+        lista_pedidos_preparados = lista_2.filter(estado_2='Preparado')
+        lista_pedidos_ruteado = lista_1.filter(estado_3='Ruteado')
+        lista_pedidos_entregado = PedidoParaMail.objects.filter(estado_4='Entregado')
+        form_crear_pedido = FormCrearPedido()
+        return render(request, 'saladillo/sector_pruebas.html', {'form_crear_pedido':form_crear_pedido,
+                                                             'lista_pedidos_recibidos':lista_pedidos_recibidos,
+                                                             'lista_pedidos_preparados':lista_pedidos_preparados,
+                                                             'lista_pedidos_ruteado': lista_pedidos_ruteado,
+                                                             'lista_pedidos_entregado': lista_pedidos_entregado,
+                                                             'msj':msj
+                                                             })
+    else:
+        msj = 'Error en el cambio de estado, el pedido tiene estados salteados'
+        lista_1 = PedidoParaMail.objects.filter(estado_4="")
+        lista_2 = lista_1.filter(estado_3="")
+        lista_3 = lista_2.filter(estado_2='')
+        
+        
+        lista_pedidos_recibidos = lista_3.filter(estado='Recibido')
+        lista_pedidos_preparados = lista_2.filter(estado_2='Preparado')
+        lista_pedidos_ruteado = lista_1.filter(estado_3='Ruteado')
+        lista_pedidos_entregado = PedidoParaMail.objects.filter(estado_4='Entregado')
+        form_crear_pedido = FormCrearPedido()
+        return render(request, 'saladillo/sector_pruebas.html', {'form_crear_pedido':form_crear_pedido,
+                                                             'lista_pedidos_recibidos':lista_pedidos_recibidos,
+                                                             'lista_pedidos_preparados':lista_pedidos_preparados,
+                                                             'lista_pedidos_ruteado': lista_pedidos_ruteado,
+                                                             'lista_pedidos_entregado': lista_pedidos_entregado,
+                                                             'msj':msj
+                                                             })
+    
+
+@login_required
+def bajar_estado(request, id):
+    pedido = PedidoParaMail.objects.get(id=id)
+    
+    if pedido.estado == 'Recibido' and pedido.estado_2 == 'Preparado' and pedido.estado_3 == 'Ruteado' and pedido.estado_4 == 'Entregado':
+        pedido.estado_4 = ''
+        pedido.save()
+        msj = 'Cambio de estado correcto, el pedido pasa a estar Ruteado'
+        lista_1 = PedidoParaMail.objects.filter(estado_4="")
+        lista_2 = lista_1.filter(estado_3="")
+        lista_3 = lista_2.filter(estado_2='')
+        
+        
+        lista_pedidos_recibidos = lista_3.filter(estado='Recibido')
+        lista_pedidos_preparados = lista_2.filter(estado_2='Preparado')
+        lista_pedidos_ruteado = lista_1.filter(estado_3='Ruteado')
+        lista_pedidos_entregado = PedidoParaMail.objects.filter(estado_4='Entregado')
+        form_crear_pedido = FormCrearPedido()
+        return render(request, 'saladillo/sector_pruebas.html', {'form_crear_pedido':form_crear_pedido,
+                                                             'lista_pedidos_recibidos':lista_pedidos_recibidos,
+                                                             'lista_pedidos_preparados':lista_pedidos_preparados,
+                                                             'lista_pedidos_ruteado': lista_pedidos_ruteado,
+                                                             'lista_pedidos_entregado': lista_pedidos_entregado,
+                                                             'msj':msj
+                                                             })
+        
+    elif pedido.estado == 'Recibido' and pedido.estado_2 == 'Preparado' and pedido.estado_3 == 'Ruteado' and pedido.estado_4 == '':
+        pedido.estado_3 = ''
+        pedido.save()
+        msj = 'Cambio de estado correcto, el pedido pasa a estar Preparado'
+        lista_1 = PedidoParaMail.objects.filter(estado_4="")
+        lista_2 = lista_1.filter(estado_3="")
+        lista_3 = lista_2.filter(estado_2='')
+        
+        
+        lista_pedidos_recibidos = lista_3.filter(estado='Recibido')
+        lista_pedidos_preparados = lista_2.filter(estado_2='Preparado')
+        lista_pedidos_ruteado = lista_1.filter(estado_3='Ruteado')
+        lista_pedidos_entregado = PedidoParaMail.objects.filter(estado_4='Entregado')
+        form_crear_pedido = FormCrearPedido()
+        return render(request, 'saladillo/sector_pruebas.html', {'form_crear_pedido':form_crear_pedido,
+                                                             'lista_pedidos_recibidos':lista_pedidos_recibidos,
+                                                             'lista_pedidos_preparados':lista_pedidos_preparados,
+                                                             'lista_pedidos_ruteado': lista_pedidos_ruteado,
+                                                             'lista_pedidos_entregado': lista_pedidos_entregado,
+                                                             'msj':msj
+                                                             })
+    elif pedido.estado == 'Recibido' and pedido.estado_2 == 'Preparado' and pedido.estado_3 == '' and pedido.estado_4 == '':
+        pedido.estado_2 = ''
+        pedido.save()
+        msj = 'Cambio de estado correcto, el pedido pasa a estar Recibido'
+        lista_1 = PedidoParaMail.objects.filter(estado_4="")
+        lista_2 = lista_1.filter(estado_3="")
+        lista_3 = lista_2.filter(estado_2='')
+        
+        
+        lista_pedidos_recibidos = lista_3.filter(estado='Recibido')
+        lista_pedidos_preparados = lista_2.filter(estado_2='Preparado')
+        lista_pedidos_ruteado = lista_1.filter(estado_3='Ruteado')
+        lista_pedidos_entregado = PedidoParaMail.objects.filter(estado_4='Entregado')
+        form_crear_pedido = FormCrearPedido()
+        return render(request, 'saladillo/sector_pruebas.html', {'form_crear_pedido':form_crear_pedido,
+                                                             'lista_pedidos_recibidos':lista_pedidos_recibidos,
+                                                             'lista_pedidos_preparados':lista_pedidos_preparados,
+                                                             'lista_pedidos_ruteado': lista_pedidos_ruteado,
+                                                             'lista_pedidos_entregado': lista_pedidos_entregado,
+                                                             'msj':msj
+                                                             })
+    
+    else:
+        msj = 'Error en el pedido, tiene estados salteados'
+        lista_1 = PedidoParaMail.objects.filter(estado_4="")
+        lista_2 = lista_1.filter(estado_3="")
+        lista_3 = lista_2.filter(estado_2='')
+        
+        
+        lista_pedidos_recibidos = lista_3.filter(estado='Recibido')
+        lista_pedidos_preparados = lista_2.filter(estado_2='Preparado')
+        lista_pedidos_ruteado = lista_1.filter(estado_3='Ruteado')
+        lista_pedidos_entregado = PedidoParaMail.objects.filter(estado_4='Entregado')
+        form_crear_pedido = FormCrearPedido()
+        return render(request, 'saladillo/sector_pruebas.html', {'form_crear_pedido':form_crear_pedido,
+                                                             'lista_pedidos_recibidos':lista_pedidos_recibidos,
+                                                             'lista_pedidos_preparados':lista_pedidos_preparados,
+                                                             'lista_pedidos_ruteado': lista_pedidos_ruteado,
+                                                             'lista_pedidos_entregado': lista_pedidos_entregado,
+                                                             'msj':msj
+                                                             })
+    
+    
+    
+    
+    
+    
+@login_required
+def enviar_mail_prueba(request):
+    pass
+
+@login_required
+def ver_documento(request):
+    pass
+
+
+@login_required
+def sector_pruebas(request):
+    msj = 'Bienvenido'
+    if request.method == 'POST':
+        if'btn_crear_pedido' in request.POST:
+            form_crear_pedido = FormCrearPedido(request.POST)
+            if form_crear_pedido.is_valid():
+                info = form_crear_pedido.cleaned_data
+                nuevo_pedido = PedidoParaMail(
+                    codigo_cliente = info['codigo_cliente'],
+                    cliente = info['cliente'],
+                    nro_pedido = info['nro_pedido'],
+                    cantidad = info['cantidad'],
+                    mail = info['mail'],
+                    mail1_enviado = 0,
+                    mail2_enviado = 0,
+                    mail3_enviado = 0,
+                    entregado = 0,
+                    importe_total = 1,
+                    orden_de_compra = 1,
+                    estado = 'Recibido',
+                    estado_2 = '',
+                    estado_3 = '',
+                    estado_4 = '',
+                    unidades = 1,
+                    fecha_creacion = date.today(),
+                    fecha_estado = date.today()
+                )
+                nuevo_pedido.save()
+                msj = 'Pedido creado correctamente'
+            else:
+                msj = 'Formulario invalido'
+                return render(request, 'saladillo/sector_pruebas.html', {'form_crear_pedido':form_crear_pedido,
+                                                             'lista_pedidos_recibidos':lista_pedidos_recibidos,
+                                                             'lista_pedidos_preparados':lista_pedidos_preparados,
+                                                             'lista_pedidos_ruteado': lista_pedidos_ruteado,
+                                                             'lista_pedidos_entregado': lista_pedidos_entregado,
+                                                             'msj':msj
+                                                             })
+    
+    lista_1 = PedidoParaMail.objects.filter(estado_4="")
+    lista_2 = lista_1.filter(estado_3="")
+    lista_3 = lista_2.filter(estado_2='')
+    
+    
+    lista_pedidos_recibidos = lista_3.filter(estado='Recibido')
+    lista_pedidos_preparados = lista_2.filter(estado_2='Preparado')
+    lista_pedidos_ruteado = lista_1.filter(estado_3='Ruteado')
+    lista_pedidos_entregado = PedidoParaMail.objects.filter(estado_4='Entregado')
+    form_crear_pedido = FormCrearPedido()
+    
+    
+    
+    
+    return render(request, 'saladillo/sector_pruebas.html', {'form_crear_pedido':form_crear_pedido,
+                                                             'lista_pedidos_recibidos':lista_pedidos_recibidos,
+                                                             'lista_pedidos_preparados':lista_pedidos_preparados,
+                                                             'lista_pedidos_ruteado': lista_pedidos_ruteado,
+                                                             'lista_pedidos_entregado': lista_pedidos_entregado,
+                                                             'msj':msj
+                                                             })
 
 @login_required
 def mail_receptor(request):
@@ -80,13 +333,35 @@ def config_mail_1(request):
     if request.method == 'POST':
         form = FormCuerpoMail(request.POST)
         
+        info = request.POST
+        #print(info)
+        print(info['selector'])
+        
         if form.is_valid():
             informacion = form.cleaned_data
             
-            cuerpo = informacion['body_uno']
-            print(cuerpo)
+            #print(informacion)
             
-            return render(request, 'saladillo/config_mail.html', {'form':form, 'form_selector':form_selector, 'form_selector1':form_selector1, 'form_selector2':form_selector2, 'form_selector3':form_selector3, 'form_selector4':form_selector4, 'form_selector5':form_selector5, 'form_selector6':form_selector6, 'form_selector7':form_selector7, 'form_selector8':form_selector8, 'form_selector9':form_selector9, 'form_selector10':form_selector10, 'form_selector11':form_selector11, 'form_selector12':form_selector12})
+            concatenado = informacion['body_uno']
+            
+            #print(concatenado)
+            
+            
+            return render(request, 'saladillo/config_mail.html', {'form':form, 
+                                                                  'form_selector':form_selector, 
+                                                                  'form_selector1':form_selector1, 
+                                                                  'form_selector2':form_selector2, 
+                                                                  'form_selector3':form_selector3, 
+                                                                  'form_selector4':form_selector4, 
+                                                                  'form_selector5':form_selector5, 
+                                                                  'form_selector6':form_selector6, 
+                                                                  'form_selector7':form_selector7, 
+                                                                  'form_selector8':form_selector8, 
+                                                                  'form_selector9':form_selector9, 
+                                                                  'form_selector10':form_selector10, 
+                                                                  'form_selector11':form_selector11, 
+                                                                  'form_selector12':form_selector12
+                                                                  })
             
             
             
@@ -94,7 +369,21 @@ def config_mail_1(request):
             
             msj_error = 'Formulario inválido'
             print('error')
-            return render(request, 'saladillo/config_mail.html', {'form':form, 'form_selector':form_selector, 'form_selector1':form_selector1, 'form_selector2':form_selector2, 'form_selector3':form_selector3, 'form_selector4':form_selector4, 'form_selector5':form_selector5, 'form_selector6':form_selector6, 'form_selector7':form_selector7, 'form_selector8':form_selector8, 'form_selector9':form_selector9, 'form_selector10':form_selector10, 'form_selector11':form_selector11, 'form_selector12':form_selector12})
+            return render(request, 'saladillo/config_mail.html', {'form':form, 
+                                                                  'form_selector':form_selector, 
+                                                                  'form_selector1':form_selector1, 
+                                                                  'form_selector2':form_selector2, 
+                                                                  'form_selector3':form_selector3, 
+                                                                  'form_selector4':form_selector4, 
+                                                                  'form_selector5':form_selector5, 
+                                                                  'form_selector6':form_selector6, 
+                                                                  'form_selector7':form_selector7, 
+                                                                  'form_selector8':form_selector8, 
+                                                                  'form_selector9':form_selector9, 
+                                                                  'form_selector10':form_selector10, 
+                                                                  'form_selector11':form_selector11, 
+                                                                  'form_selector12':form_selector12
+                                                                  })
         
         
     
@@ -117,7 +406,21 @@ def config_mail_1(request):
         form_selector11 = FormSelector11()
         form_selector12 = FormSelector12()
         
-        return render(request, 'saladillo/config_mail.html', {'form':form, 'form_selector':form_selector, 'form_selector1':form_selector1, 'form_selector2':form_selector2, 'form_selector3':form_selector3, 'form_selector4':form_selector4, 'form_selector5':form_selector5, 'form_selector6':form_selector6, 'form_selector7':form_selector7, 'form_selector8':form_selector8, 'form_selector9':form_selector9, 'form_selector10':form_selector10, 'form_selector11':form_selector11, 'form_selector12':form_selector12})
+        return render(request, 'saladillo/config_mail.html', {'form':form, 
+                                                              'form_selector':form_selector, 
+                                                              'form_selector1':form_selector1, 
+                                                              'form_selector2':form_selector2, 
+                                                              'form_selector3':form_selector3, 
+                                                              'form_selector4':form_selector4, 
+                                                              'form_selector5':form_selector5, 
+                                                              'form_selector6':form_selector6, 
+                                                              'form_selector7':form_selector7, 
+                                                              'form_selector8':form_selector8, 
+                                                              'form_selector9':form_selector9, 
+                                                              'form_selector10':form_selector10, 
+                                                              'form_selector11':form_selector11, 
+                                                              'form_selector12':form_selector12
+                                                              })
     
     
     
@@ -194,7 +497,11 @@ def index_saladillo(request):
                     pedidos_cargados = ''
                 
                 msj_carga = 'Conexión exitosa. Se han leido un total de: ' + str(cantidad_pedidos) + ' lineas de la fecha: ' + str(un_dia['fecha']) + ' y se han generado un total de: ' + str(contador) + ' pedidos nuevos.'
-                return render(request, 'saladillo/index_saladillo.html', {'msj_carga':msj_carga, 'pedidos':pedidos_cargados, 'form':form, 'form2':form2})
+                return render(request, 'saladillo/index_saladillo.html', {'msj_carga':msj_carga, 
+                                                                          'pedidos':pedidos_cargados, 
+                                                                          'form':form, 
+                                                                          'form2':form2
+                                                                          })
             
 
             

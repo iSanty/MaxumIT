@@ -27,7 +27,9 @@ urlpatterns = [
     path('webhooks/', include('webhooks.urls')),
     path('casahelze/', include('casahelze.urls')),
     path('accounts/', include('accounts.urls')),
-    path('leer_saladillo/', include('lecturas_db.urls'))
+    path('leer_saladillo/', include('lecturas_db.urls')),
+    path('bot/', include('bot.urls')),
+    
     
 ]
 
