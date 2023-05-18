@@ -213,6 +213,7 @@ def ver_documento(request):
 def sector_pruebas(request):
     msj = 'Bienvenido'
     if request.method == 'POST':
+        
         if'btn_crear_pedido' in request.POST:
             form_crear_pedido = FormCrearPedido(request.POST)
             if form_crear_pedido.is_valid():
@@ -221,7 +222,7 @@ def sector_pruebas(request):
                     codigo_cliente = info['codigo_cliente'],
                     cliente = info['cliente'],
                     nro_pedido = info['nro_pedido'],
-                    cantidad = info['cantidad'],
+                    cantidad = 12,
                     mail = info['mail'],
                     mail1_enviado = 0,
                     mail2_enviado = 0,
@@ -233,7 +234,7 @@ def sector_pruebas(request):
                     estado_2 = '',
                     estado_3 = '',
                     estado_4 = '',
-                    unidades = 1,
+                    
                     fecha_creacion = date.today(),
                     fecha_estado = date.today()
                 )
