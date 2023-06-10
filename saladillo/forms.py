@@ -4,6 +4,8 @@
 from django import forms
 from ckeditor.fields import RichTextFormField
 from .models import CuerpoMail, PedidoParaMail, Estados
+from django.db import models as model
+from django.contrib.auth.models import User
 
 
 fields_mails = (
@@ -138,7 +140,17 @@ class FormCrearCliente(forms.Form):
     
 class FormCrearPedido(forms.Form):
     codigo_cliente = forms.IntegerField()
-    cliente = forms.CharField()
-    nro_pedido = forms.IntegerField()
     
+    cliente = forms.CharField()
+    domicilio = forms.CharField()
+    localidad = forms.CharField()
+    cp = forms.CharField()
+    nro_pedido = forms.IntegerField()
+    oc = forms.CharField()
     mail = forms.EmailField()
+    
+    
+class FormAsignarHR(forms.Form):
+    nro_hoja_de_ruta = forms.IntegerField()
+    transportista = forms.ModelChoiceField(queryset=User.objects.all())
+    

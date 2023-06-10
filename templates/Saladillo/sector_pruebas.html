@@ -102,10 +102,7 @@
                             <td>{{valor.cliente}}</td>
                             <td>{{valor.fecha_estado_2 | date:"d/m/Y"}}</td>
                             <td>{{valor.fecha_creacion | date:"d/m/Y"}}</td>
-                            
-
-                            
-                            <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'subir_estado' valor.id %}>Subir estado</a></button></td> 
+                            <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'asignar_hr' valor.id %}>Asignar HR</a></button></td>
                             <td><button type="button" class="btn btn-outline-danger m-2"><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %} >Enviar Mail</a></button></td>
                             <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'bajar_estado' valor.id %} >Bajar estado</a></button></td>
   

@@ -1,0 +1,24 @@
+{% extends 'Saladillo/index_saladillo.html' %}
+
+
+{% block graficos_tablas %}
+
+
+{% if msj %}
+<div class="alert alert-secondary bg-secondary text-light border-0 alert-dismissible fade show" role="alert">
+{{msj}}
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+<button type="button" class="btn btn-outline-danger m-2"><a href={% url 'sincronizar' %} name="btn_clientes">Sincronizar Clientes</a></button>
+
+<button type="button" class="btn btn-outline-danger m-2"><a href={% url 'sincronizar' %} name="btn_pedidos">Sincronizar Pedidos</a></button>
+
+<button type="button" class="btn btn-outline-danger m-2"><a href={% url 'sincronizar' %} name="btn_hr">Sincronizar Hojas de Ruta</a></button>
+
+<button type="button" class="btn btn-outline-danger m-2"><a href={% url 'sincronizar' %} name="btn_estados">Informar Estados</a></button>
+
+
+
+{% endblock graficos_tablas %}

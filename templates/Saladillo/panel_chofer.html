@@ -1,0 +1,81 @@
+{% extends 'Saladillo/index_saladillo.html' %}
+
+
+
+{% block graficos_tablas %}
+
+
+{% if msj %}
+<div class="alert alert-secondary bg-secondary text-light border-0 alert-dismissible fade show" role="alert">
+{{msj}}
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+Panel Transportista
+
+{% if lista_de_hr %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-white rounded h-100 p-4">
+                
+                <h6 class="mb-4">Lista de hojas de rutas activas.
+                </h6>
+                {% comment %} <a href={% url 'informe_global' %}><button class="btn btn-success">Actualizar</a></button> {% endcomment %}
+                <table class="table table-bordered border-primary">
+                    <thead>
+                        <tr>
+                            <th scope="col">Accion</th>
+                            <th scope="col">Nro HR</th>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Direccion de entrega</th>
+                            <th scope="col">Localidad</th>
+                            <th scope="col">Número de pedido</th>
+                            <th scope="col">OC</th>
+                            
+                            
+                            
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for valor in lista_de_hr %}
+                            
+                            <tr>
+                                
+                                <td><button type="button" class="btn btn-outline-danger m-2"><a href="#">Iniciar Ruta</a></button></td>
+                                <th>{{valor.nro_ruteo}}</th>
+                                <th>{{valor.cliente}}</th>
+                                <th>{{valor.domicilio}}</th>
+                                <th>{{valor.localidad}}</th>
+                                <th>{{valor.nro_pedido}}</th>
+                                <th>{{valor.orden_de_compra}}</th>
+                                
+                                
+
+                                
+                                {% comment %} <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'subir_estado' valor.id %}>Subir estado</a></button></td> 
+                                <td><button type="button" class="btn btn-outline-danger m-2"><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %}  >Enviar Mail</a></button></td>
+    {% endcomment %}
+                                
+    
+                            </tr>
+                            
+                        {% endfor %}
+  
+  
+                    </tbody>
+                </table>
+               
+            </div>
+        </div>
+    </div>
+  </div>   
+
+
+
+
+{% endif %}
+
+{% endblock graficos_tablas %}

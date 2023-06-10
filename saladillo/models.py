@@ -11,29 +11,33 @@ class Estados(models.Model):
         
 
 class PedidoParaMail(models.Model):
-    codigo_cliente = models.IntegerField()
-    cliente = models.CharField(max_length=128)
-    nro_pedido = models.IntegerField()
+    codigo_cliente = models.IntegerField(null=True)
+    cliente = models.CharField(max_length=128, null=True)
+    nro_pedido = models.IntegerField(null=True)
     nro_packing = models.IntegerField(null=True)
     nro_ruteo = models.IntegerField(null=True)
     mail = models.EmailField(null=True)
-    mail1_enviado = models.CharField(max_length=12)
-    mail2_enviado = models.CharField(max_length=12)
-    mail3_enviado = models.CharField(max_length=12)
-    entregado = models.CharField(max_length=126)
-    cantidad = models.IntegerField()
-    importe_total = models.IntegerField()
-    orden_de_compra = models.CharField(max_length=128)
-    estado = models.CharField(max_length=128)
-    estado_2 = models.CharField(max_length=128)
-    estado_3 = models.CharField(max_length=128)
-    estado_4 = models.CharField(max_length=128)
+    mail1_enviado = models.CharField(max_length=12,null=True)
+    mail2_enviado = models.CharField(max_length=12,null=True)
+    mail3_enviado = models.CharField(max_length=12,null=True)
+    entregado = models.CharField(max_length=126,null=True)
+    cantidad = models.IntegerField(null=True)
+    importe_total = models.IntegerField(null=True)
+    orden_de_compra = models.CharField(max_length=128,null=True)
+    estado = models.CharField(max_length=128,null=True)
+    estado_2 = models.CharField(max_length=128,null=True)
+    estado_3 = models.CharField(max_length=128,null=True)
+    estado_4 = models.CharField(max_length=128,null=True)
 
     fecha_creacion = models.DateField(null=True)
     fecha_estado = models.DateField(null=True)
     fecha_estado_2 = models.DateField(null=True)
     fecha_estado_3 = models.DateField(null=True)
     fecha_estado_4 = models.DateField(null=True)
+    domicilio = models.CharField(max_length=128,null=True)
+    localidad = models.CharField(max_length=128,null=True)
+    cp = models.CharField(max_length=128,null=True)
+    estado_hr = models.CharField(max_length=128,null=True)
     
     
     def __str__(self):
@@ -113,3 +117,12 @@ class MailReceptor(models.Model):
     
     def __str__(self):
         return f'{self.mail}'
+    
+    
+class HojaRuta(models.Model):
+    nro_hoja_de_ruta = models.IntegerField()
+    nro_pedido = models.IntegerField()
+    transportista = models.CharField(max_length=128)
+    
+    def __str__(self):
+        return f'{self.nro_hoja_de_ruta}'

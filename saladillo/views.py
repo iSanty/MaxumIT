@@ -1,9 +1,9 @@
 from django.shortcuts import render
 
-from .models import PedidoParaMail, MaestroCliente, PrimeraInstancia, MailReceptor, CuerpoMail
+from .models import PedidoParaMail, MaestroCliente, PrimeraInstancia, MailReceptor, CuerpoMail, HojaRuta
 from stg.models import pedidos, clientes_emails
 from datetime import datetime, date
-from .forms import FormActualizarPedidos, FormMailReceptor, FormCuerpoMail, FormSelector, FormSelector1, FormSelector2, FormSelector3, FormSelector4, FormSelector5, FormSelector6, FormSelector7, FormSelector8, FormSelector9, FormSelector10, FormSelector11, FormSelector12, FormCrearCliente, FormCrearPedido, FormCambiarEstado
+from .forms import FormActualizarPedidos, FormMailReceptor, FormCuerpoMail, FormSelector, FormSelector1, FormSelector2, FormSelector3, FormSelector4, FormSelector5, FormSelector6, FormSelector7, FormSelector8, FormSelector9, FormSelector10, FormSelector11, FormSelector12, FormCrearCliente, FormCrearPedido, FormCambiarEstado, FormAsignarHR
 from .funciones import mail_primera_instancia
 from django.contrib.auth.decorators import login_required
 
@@ -19,7 +19,169 @@ fecha_hoy_f = datetime.strptime(fecha_hoy, formato_fecha2)
 
 
 @login_required
+def asignar_hr(request, id):
+    form_asignar_hr = FormAsignarHR()
+    filtro = PedidoParaMail.objects.filter(id=id)
+    
+    
+    
+    
+    if not filtro:
+        msj = 'ID Inexistente'
+        return render(request, 'saladillo/asignar_hr.html', {'msj':msj, 'form':form_asignar_hr})
+    
+    pedido = PedidoParaMail.objects.get(id=id)
+    cliente = str(pedido.cliente)
+    nro_pedido = str(pedido.nro_pedido)
+    form_asignar_hr = FormAsignarHR()
+    
+    if request.method == 'POST':
+        
+        form_asignacion = FormAsignarHR(request.POST)
+        
+        if form_asignacion.is_valid():
+            info = form_asignacion.cleaned_data
+            filtro2 = HojaRuta.objects.filter(nro_pedido=pedido.nro_pedido)
+            
+            if filtro2:
+                nro_pedido = pedido.nro_pedido
+                actualizar = HojaRuta.objects.get(nro_pedido=nro_pedido)
+                actualizar.nro_hoja_de_ruta = info['nro_hoja_de_ruta']
+                actualizar.transportista = str(info['transportista'])
+                pedido.nro_ruteo = info['nro_hoja_de_ruta']
+                pedido.estado = 'Recibido'
+                pedido.estado_2 = 'Preparado'
+                pedido.estado_3 = 'Ruteado'
+                pedido.estado_4 = ""
+                
+                
+                
+                
+                pedido.save()
+                actualizar.save()
+                msj = 'El pedido nro ' + str(nro_pedido) + ' ya se encuentra asignado a una HR. Se ha modificado a la HR nro: ' + str(info['nro_hoja_de_ruta'])
+                
+                
+                return render(request, 'saladillo/asignar_hr.html', {'msj':msj, 'form':form_asignar_hr, 'id':id})
+            
+        
+            nueva_asgignacion = HojaRuta(
+                nro_hoja_de_ruta = info['nro_hoja_de_ruta'],
+                transportista = info['transportista'],
+                nro_pedido = pedido.nro_pedido
+            )
+            pedido.nro_ruteo = info['nro_hoja_de_ruta']
+            pedido.estado = "Recibido"
+            pedido.estado_2 = "Preparado"
+            pedido.estado_3 = "Ruteado"
+            pedido.estado_4 = ""
+            pedido.save()
+            
+            nueva_asgignacion.save()
+            
+            msj = 'El pedido ' + str(nro_pedido) + ' ha sido asignado a la HR nro: ' + str(info['nro_hoja_de_ruta'])
+            
+            
+            return render(request, 'saladillo/asignar_hr.html', {'msj':msj, 'form':form_asignar_hr, 'id':id})
+        else:
+            
+            msj = 'Formulario invalido'
+            return render(request, 'saladillo/asignar_hr.html', {'msj':msj, 'form':form_asignar_hr, 'id':id})
+    
+    
+    
+    
+    
+    
+    id = id
+    msj = 'Asignacion a HR para pedido ' + nro_pedido + ' ' + cliente
+    return render(request, 'saladillo/asignar_hr.html', {'msj':msj, 'form':form_asignar_hr, 'id':id})
+    
+
+
+
+@login_required
+def panel_chofer(request):
+    
+    
+    msj = "Bienvenido"
+    user = request.user
+    
+    transportista = str(user)
+    lista_de_hr = []
+    
+    hojas = HojaRuta.objects.all()
+    hojas_asignadas = hojas.filter(transportista=transportista)
+    pedidos = PedidoParaMail.objects.all()
+    clientes = MaestroCliente.objects.all()
+    
+    for valor in hojas_asignadas:
+        
+        pedido = pedidos.filter(nro_pedido=valor.nro_pedido)
+        
+        for valor1 in pedido:
+            
+            if valor1.estado_4 == "":
+                
+                lista_de_hr.append(valor1)
+                
+
+    
+    if lista_de_hr:
+        msj = "Resultado:"
+        return render(request, 'saladillo/panel_chofer.html', {'msj':msj,
+                                                               'lista_de_hr':lista_de_hr
+                                                           })
+        
+    else:
+        msj = "Sin resultado de busqueda."
+        return render(request, 'saladillo/panel_chofer.html', {'msj':msj,
+                                                               
+                                                               
+                                                               
+                                                           })
+    
+    
+    
+
+@login_required
+def sincronizar(request):
+    
+    if request.method == "POST":
+        if "btn_clientes" in request.GET:
+            msj = "Clientes Actualizados"
+        
+            return render(request, 'saladillo/sincronizar.html', {'msj':msj
+                                                            })
+        elif "btn_hr" in request.GET:
+            msj = "Hojas de Ruta Actualizadas"
+        
+            return render(request, 'saladillo/sincronizar.html', {'msj':msj
+                                                            })
+            
+        elif "btn_pedidos" in request.GET:
+            msj = "Pedidos Actualizados"
+        
+            return render(request, 'saladillo/sincronizar.html', {'msj':msj
+                                                            })
+            
+        elif "btn_estados" in request.GET:
+            msj = "Pedidos Actualizados"
+        
+            return render(request, 'saladillo/sincronizar.html', {'msj':msj
+                                                           })
+    
+    else:
+        msj = "Panel de sincronizacion"
+        return render(request, 'saladillo/sincronizar.html', {'msj':msj
+                                                           })
+        
+
+
+
+@login_required
 def subir_estado(request, id):
+    form_asignar_hr = FormAsignarHR()
     pedido = PedidoParaMail.objects.get(id=id)
     if pedido.estado == 'Recibido' and pedido.estado_2 == '' and pedido.estado_3 == '' and pedido.estado_4 == '':
         pedido.estado_2 = 'Preparado'
@@ -40,10 +202,13 @@ def subir_estado(request, id):
                                                              'lista_pedidos_preparados':lista_pedidos_preparados,
                                                              'lista_pedidos_ruteado': lista_pedidos_ruteado,
                                                              'lista_pedidos_entregado': lista_pedidos_entregado,
-                                                             'msj':msj
+                                                             'msj':msj,
+                                                             'form_asignar_hr':form_asignar_hr
                                                              })
     
     elif pedido.estado == 'Recibido' and pedido.estado_2 == 'Preparado' and pedido.estado_3 == '' and pedido.estado_4 == '':
+        
+        
         pedido.estado_3 = 'Ruteado'
         pedido.save()
         msj = 'Cambio de estado correcto. El pedido pasa a Ruteado'
@@ -62,8 +227,11 @@ def subir_estado(request, id):
                                                              'lista_pedidos_preparados':lista_pedidos_preparados,
                                                              'lista_pedidos_ruteado': lista_pedidos_ruteado,
                                                              'lista_pedidos_entregado': lista_pedidos_entregado,
-                                                             'msj':msj
+                                                             'msj':msj,
+                                                             'form_asignar_hr':form_asignar_hr
                                                              })
+        
+        
     elif pedido.estado == 'Recibido' and pedido.estado_2 == 'Preparado' and pedido.estado_3 == 'Ruteado' and pedido.estado_4 == '':
         pedido.estado_4 = 'Entregado'
         pedido.save()
@@ -83,7 +251,8 @@ def subir_estado(request, id):
                                                              'lista_pedidos_preparados':lista_pedidos_preparados,
                                                              'lista_pedidos_ruteado': lista_pedidos_ruteado,
                                                              'lista_pedidos_entregado': lista_pedidos_entregado,
-                                                             'msj':msj
+                                                             'msj':msj,
+                                                             'form_asignar_hr':form_asignar_hr
                                                              })
     else:
         msj = 'Error en el cambio de estado, el pedido tiene estados salteados'
@@ -102,12 +271,14 @@ def subir_estado(request, id):
                                                              'lista_pedidos_preparados':lista_pedidos_preparados,
                                                              'lista_pedidos_ruteado': lista_pedidos_ruteado,
                                                              'lista_pedidos_entregado': lista_pedidos_entregado,
-                                                             'msj':msj
+                                                             'msj':msj,
+                                                             'form_asignar_hr':form_asignar_hr
                                                              })
     
 
 @login_required
 def bajar_estado(request, id):
+    form_asignar_hr = FormAsignarHR()
     pedido = PedidoParaMail.objects.get(id=id)
     
     if pedido.estado == 'Recibido' and pedido.estado_2 == 'Preparado' and pedido.estado_3 == 'Ruteado' and pedido.estado_4 == 'Entregado':
@@ -129,7 +300,8 @@ def bajar_estado(request, id):
                                                              'lista_pedidos_preparados':lista_pedidos_preparados,
                                                              'lista_pedidos_ruteado': lista_pedidos_ruteado,
                                                              'lista_pedidos_entregado': lista_pedidos_entregado,
-                                                             'msj':msj
+                                                             'msj':msj,
+                                                             'form_asignar_hr':form_asignar_hr
                                                              })
         
     elif pedido.estado == 'Recibido' and pedido.estado_2 == 'Preparado' and pedido.estado_3 == 'Ruteado' and pedido.estado_4 == '':
@@ -151,7 +323,8 @@ def bajar_estado(request, id):
                                                              'lista_pedidos_preparados':lista_pedidos_preparados,
                                                              'lista_pedidos_ruteado': lista_pedidos_ruteado,
                                                              'lista_pedidos_entregado': lista_pedidos_entregado,
-                                                             'msj':msj
+                                                             'msj':msj,
+                                                             'form_asignar_hr':form_asignar_hr
                                                              })
     elif pedido.estado == 'Recibido' and pedido.estado_2 == 'Preparado' and pedido.estado_3 == '' and pedido.estado_4 == '':
         pedido.estado_2 = ''
@@ -172,7 +345,8 @@ def bajar_estado(request, id):
                                                              'lista_pedidos_preparados':lista_pedidos_preparados,
                                                              'lista_pedidos_ruteado': lista_pedidos_ruteado,
                                                              'lista_pedidos_entregado': lista_pedidos_entregado,
-                                                             'msj':msj
+                                                             'msj':msj,
+                                                             'form_asignar_hr':form_asignar_hr
                                                              })
     
     else:
@@ -192,26 +366,17 @@ def bajar_estado(request, id):
                                                              'lista_pedidos_preparados':lista_pedidos_preparados,
                                                              'lista_pedidos_ruteado': lista_pedidos_ruteado,
                                                              'lista_pedidos_entregado': lista_pedidos_entregado,
-                                                             'msj':msj
+                                                             'msj':msj,
+                                                             'form_asignar_hr':form_asignar_hr
                                                              })
     
     
     
     
-    
-    
-@login_required
-def enviar_mail_prueba(request):
-    pass
-
-@login_required
-def ver_documento(request):
-    pass
-
-
 @login_required
 def sector_pruebas(request):
     msj = 'Bienvenido'
+    form_asignar_hr = FormAsignarHR()
     if request.method == 'POST':
         
         if'btn_crear_pedido' in request.POST:
@@ -229,11 +394,15 @@ def sector_pruebas(request):
                     mail3_enviado = 0,
                     entregado = 0,
                     importe_total = 1,
-                    orden_de_compra = 1,
+                    orden_de_compra = info['oc'],
                     estado = 'Recibido',
                     estado_2 = '',
                     estado_3 = '',
                     estado_4 = '',
+                    localidad = info['localidad'],
+                    
+                    domicilio = info['domicilio'],
+                    cp = info['cp'],
                     
                     fecha_creacion = date.today(),
                     fecha_estado = date.today()
@@ -247,7 +416,8 @@ def sector_pruebas(request):
                                                              'lista_pedidos_preparados':lista_pedidos_preparados,
                                                              'lista_pedidos_ruteado': lista_pedidos_ruteado,
                                                              'lista_pedidos_entregado': lista_pedidos_entregado,
-                                                             'msj':msj
+                                                             'msj':msj,
+                                                             'form_asignar_hr':form_asignar_hr
                                                              })
     
     lista_1 = PedidoParaMail.objects.filter(estado_4="")
@@ -269,7 +439,8 @@ def sector_pruebas(request):
                                                              'lista_pedidos_preparados':lista_pedidos_preparados,
                                                              'lista_pedidos_ruteado': lista_pedidos_ruteado,
                                                              'lista_pedidos_entregado': lista_pedidos_entregado,
-                                                             'msj':msj
+                                                             'msj':msj,
+                                                             'form_asignar_hr':form_asignar_hr
                                                              })
 
 @login_required

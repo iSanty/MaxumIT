@@ -25,7 +25,7 @@ def conectarse(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                print('loguie')
+                
                 return redirect('inicio')
             else:
                 return render(request, 'accounts/login.html', {'form': form_login})

@@ -33,7 +33,7 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-menu-button-wide"></i><span>Envio de Mails</span><i class="bi bi-chevron-down ms-auto"></i>
+                <i class="bi bi-menu-button-wide"></i><span>API Pedidos</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
@@ -58,7 +58,17 @@
                 </li>
                 <li>
                     <a href={% url 'sector_pruebas' %}>
-                        <i class="bi bi-circle"></i><span>Sector Pruebas</span>
+                        <i class="bi bi-circle"></i><span>Control Pedidos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href={% url 'panel_chofer' %}>
+                        <i class="bi bi-circle"></i><span>Panel Choferes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href={% url 'sincronizar' %}>
+                        <i class="bi bi-circle"></i><span>Panel de sincronizacion</span>
                     </a>
                 </li>
                 

@@ -1,0 +1,22 @@
+{% extends 'saladillo/index_saladillo.html' %}
+
+{% block graficos_tablas %}
+
+{% if msj %}
+<div class="alert alert-secondary bg-secondary text-light border-0 alert-dismissible fade show" role="alert">
+{{msj}}
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+<div class="alert alert-secondary bg-secondary text-light border-0 alert-dismissible fade show" role="alert">
+    <form action={% url 'asignar_hr' id %} method = "POST">
+    <p>Asignacion a HR - </p>
+    {{form}}
+    <button type="submit" class="btn btn-info" name="btn_crear_pedido">Asignar</button>
+
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </form>
+</div>
+
+{% endblock graficos_tablas %}
