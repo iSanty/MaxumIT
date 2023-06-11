@@ -122,6 +122,7 @@ class MailReceptor(models.Model):
 class HojaRuta(models.Model):
     nro_hoja_de_ruta = models.IntegerField()
     nro_pedido = models.IntegerField()
+    estado_en_hr = models.CharField(max_length=128)
     transportista = models.CharField(max_length=128)
     
     def __str__(self):

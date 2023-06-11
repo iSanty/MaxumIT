@@ -48,6 +48,7 @@ def asignar_hr(request, id):
                 actualizar = HojaRuta.objects.get(nro_pedido=nro_pedido)
                 actualizar.nro_hoja_de_ruta = info['nro_hoja_de_ruta']
                 actualizar.transportista = str(info['transportista'])
+                actualizar.estado_en_hr = 'En Carga'
                 pedido.nro_ruteo = info['nro_hoja_de_ruta']
                 pedido.estado = 'Recibido'
                 pedido.estado_2 = 'Preparado'
@@ -104,12 +105,17 @@ def asignar_hr(request, id):
 def panel_chofer(request):
     
     
+    
+    
+    
+    
     msj = "Bienvenido"
     user = request.user
     
     transportista = str(user)
     lista_de_hr = []
-    
+    iniciar_hr = []
+        
     hojas = HojaRuta.objects.all()
     hojas_asignadas = hojas.filter(transportista=transportista)
     pedidos = PedidoParaMail.objects.all()
@@ -125,12 +131,19 @@ def panel_chofer(request):
                 
                 lista_de_hr.append(valor1)
                 
+    for hr in hojas_asignadas:
+        nro_hr = hr.nro_hoja_de_ruta
+        
+        if not nro_hr in iniciar_hr:
+            iniciar_hr.append(nro_hr)
+                
 
     
     if lista_de_hr:
         msj = "Resultado:"
         return render(request, 'saladillo/panel_chofer.html', {'msj':msj,
-                                                               'lista_de_hr':lista_de_hr
+                                                               'lista_de_hr':lista_de_hr,
+                                                               'iniciar_hr':iniciar_hr
                                                            })
         
     else:
@@ -210,6 +223,9 @@ def subir_estado(request, id):
         
         
         pedido.estado_3 = 'Ruteado'
+        
+        
+        
         pedido.save()
         msj = 'Cambio de estado correcto. El pedido pasa a Ruteado'
         lista_1 = PedidoParaMail.objects.filter(estado_4="")

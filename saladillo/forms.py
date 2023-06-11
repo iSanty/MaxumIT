@@ -154,3 +154,4 @@ class FormAsignarHR(forms.Form):
     nro_hoja_de_ruta = forms.IntegerField()
     transportista = forms.ModelChoiceField(queryset=User.objects.all())
     
+    

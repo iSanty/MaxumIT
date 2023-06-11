@@ -14,13 +14,39 @@
 
 Panel Transportista
 
+
+{% if iniciar_hr %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-white rounded h-100 p-4">
+                
+                <h6 class="mb-4">Iniciar HR: "Una vez cargado el transporte, se debe iniciar la HR para que pase a Transito</h6>
+                {% for nro_hr in iniciar_hr %}
+                <button type="button" class="btn btn-outline-danger m-2"><a href="#">{{nro_hr}}</a></button>
+
+
+
+                {% endfor %}
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+
+
+
+
 {% if lista_de_hr %}
 <div class="container-fluid pt-4 px-4">
     <div class="row g-4">
         <div class="col-12">
             <div class="bg-white rounded h-100 p-4">
                 
-                <h6 class="mb-4">Lista de hojas de rutas activas.
+                <h6 class="mb-4">Pedidos a entregar
                 </h6>
                 {% comment %} <a href={% url 'informe_global' %}><button class="btn btn-success">Actualizar</a></button> {% endcomment %}
                 <table class="table table-bordered border-primary">
