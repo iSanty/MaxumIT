@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from .models import PedidoParaMail, MaestroCliente, PrimeraInstancia, MailReceptor, CuerpoMail, HojaRuta
 from stg.models import pedidos, clientes_emails
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from .forms import FormActualizarPedidos, FormMailReceptor, FormCuerpoMail, FormSelector, FormSelector1, FormSelector2, FormSelector3, FormSelector4, FormSelector5, FormSelector6, FormSelector7, FormSelector8, FormSelector9, FormSelector10, FormSelector11, FormSelector12, FormCrearCliente, FormCrearPedido, FormCambiarEstado, FormAsignarHR
 from .funciones import mail_primera_instancia
 from django.contrib.auth.decorators import login_required
@@ -17,6 +17,94 @@ fecha_hoy = str(dia) + '/' + str(mes) + '/' + str(anio)
 fecha_hoy_f = datetime.strptime(fecha_hoy, formato_fecha2)
 # Create your views here.
 
+
+
+
+
+@login_required
+def sincronizar(request):
+    
+    hace_3_dias = date.today() - timedelta(days=100)
+    
+    pedidos_saladillo = pedidos.objects.all()
+    
+    lista_pedidos_nuevos = pedidos_saladillo.filter(fecha__range=[hace_3_dias , date.today()])
+    
+    
+    lista_pedidos_viejos = PedidoParaMail.objects.all()
+    maestro_cliente = MaestroCliente.objects.all()
+    contador = 0
+    for valor in lista_pedidos_nuevos:
+        filtro = lista_pedidos_viejos.filter(nro_pedido=valor.numero)
+        if not filtro:
+            cliente_nombre = maestro_cliente.filter(codigo=valor.codigo_cliente)
+            
+            if cliente_nombre:
+                desc = MaestroCliente.objects.get(codigo=valor.codigo_cliente)
+                cliente = desc.nombre
+                num_celu = desc.num_celular
+            else:
+                cliente = 'Sin Datos'
+                num_celu = 'Sin Datos'
+            
+            nuevo_pedido = PedidoParaMail(
+                codigo_cliente = valor.codigo_cliente,
+                cliente = cliente,
+                nro_pedido = valor.numero,
+                importe_total = valor.importe_total_comprobante,
+                orden_de_compra = valor.ordendecompra,
+                fecha_creacion = valor.fecha,
+                fecha_estado = date.today(),
+                estado = 'Recibido',
+                estado_2 = '',
+                estado_3 = '',
+                estado_4 = '',
+                num_celular = num_celu
+                
+            )
+        
+            nuevo_pedido.save()
+            contador += 1
+        
+        
+        
+        
+    
+    
+    
+    
+    
+    
+    msj = "Bases de datos actualizadas. Se han leido un total de "+str(len(lista_pedidos_nuevos))+" pedidos y se han actualizado un total de " + str(contador) + " pedidos nuevos desde la fecha " + str(hace_3_dias) + " hasta " + str(date.today())
+    
+    return render(request, 'saladillo/sincronizar.html', {
+        'msj':msj
+        })
+        
+
+
+
+
+
+
+
+
+def asignar_hr_masiva(request, id):
+    
+    pedido = PedidoParaMail.objects.get(id=id)
+    
+    nro_de_ruta = pedido.nro_ruteo
+    
+    actualizar = PedidoParaMail.objects.filter(nro_ruteo=nro_de_ruta)
+    
+    if actualizar:
+        
+        for valor in actualizar:
+            pedido_actualizable = PedidoParaMail.objects.get(id=valor.id)
+            print(pedido_actualizable)
+    
+    
+    return render(request, 'Saladillo/asignar_hr_masiva.html')
 
 @login_required
 def asignar_hr(request, id):
@@ -156,39 +244,6 @@ def panel_chofer(request):
     
     
     
-
-@login_required
-def sincronizar(request):
-    
-    if request.method == "POST":
-        if "btn_clientes" in request.GET:
-            msj = "Clientes Actualizados"
-        
-            return render(request, 'saladillo/sincronizar.html', {'msj':msj
-                                                            })
-        elif "btn_hr" in request.GET:
-            msj = "Hojas de Ruta Actualizadas"
-        
-            return render(request, 'saladillo/sincronizar.html', {'msj':msj
-                                                            })
-            
-        elif "btn_pedidos" in request.GET:
-            msj = "Pedidos Actualizados"
-        
-            return render(request, 'saladillo/sincronizar.html', {'msj':msj
-                                                            })
-            
-        elif "btn_estados" in request.GET:
-            msj = "Pedidos Actualizados"
-        
-            return render(request, 'saladillo/sincronizar.html', {'msj':msj
-                                                           })
-    
-    else:
-        msj = "Panel de sincronizacion"
-        return render(request, 'saladillo/sincronizar.html', {'msj':msj
-                                                           })
-        
 
 
 
@@ -437,6 +492,7 @@ def sector_pruebas(request):
                                                              })
     
     lista_1 = PedidoParaMail.objects.filter(estado_4="")
+    print(len(lista_1))
     lista_2 = lista_1.filter(estado_3="")
     lista_3 = lista_2.filter(estado_2='')
     

@@ -1,10 +1,13 @@
 
 from django.urls import path
-from .views import index_saladillo, monitor, mail_receptor, config_mail_1, sector_pruebas, subir_estado, bajar_estado, panel_chofer, sincronizar, asignar_hr
+from .views import index_saladillo, monitor, mail_receptor, config_mail_1, sector_pruebas, subir_estado, bajar_estado, panel_chofer, sincronizar, asignar_hr, asignar_hr_masiva
 
 
 
 urlpatterns = [
+    
+    
+    
     path('', index_saladillo, name='index_saladillo' ),
     path('monitor/', monitor, name='monitor' ),
     path('configuracion/', mail_receptor, name='mail_receptor' ),
@@ -15,6 +18,7 @@ urlpatterns = [
     path('panel_chofer/', panel_chofer, name='panel_chofer' ),
     path('sincronizar/', sincronizar, name='sincronizar' ),
     path('asignar_hr/<int:id>/', asignar_hr, name='asignar_hr' ),
+    path('asignar_hr_masiva/<int:id>/', asignar_hr_masiva, name='asignar_hr_masiva' ),
     
     
     

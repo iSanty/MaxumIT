@@ -51,6 +51,7 @@ def registrarse(request):
 
 @login_required
 def perfil(request):
+    
     return render(request, 'accounts/perfil.html')
 
 
@@ -71,6 +72,8 @@ def editar_perfil(request):
                 mas_datos_usuario.descripcion = data.get('descripcion')
             user.email = data.get('email') if data.get('email') else user.mail
             mas_datos_usuario.avatar = data.get('avatar') if data.get('avatar') else mas_datos_usuario.avatar
+            mas_datos_usuario.num_celular = data.get('num_celular')
+            mas_datos_usuario.codigo_cliente = data.get('codigo_cliente')
             mas_datos_usuario.save()
             user.save()
             return redirect('perfil')
@@ -84,6 +87,8 @@ def editar_perfil(request):
             'last_name' : user.last_name,
             'avatar' : mas_datos_usuario.avatar,
             'descripcion': mas_datos_usuario.descripcion,
+            'num_celular': mas_datos_usuario.num_celular,
+            'codigo_cliente':mas_datos_usuario.codigo_cliente
             
                     } )
     return render(request, 'accounts/editar_perfil.html',{'form':form})

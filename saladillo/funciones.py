@@ -108,3 +108,6 @@ def mail_primera_instancia(cliente, importe_total, mail, orden_de_compra, nro_pe
     
     
     return True
+
+
+

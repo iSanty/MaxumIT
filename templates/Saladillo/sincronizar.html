@@ -10,14 +10,16 @@
 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 {% endif %}
+{% comment %} 
+<button type="button" class="btn btn-outline-danger m-2" name="btn_clientes"><a href={% url 'sincronizar' %}>Sincronizar Clientes</a></button>
 
-<button type="button" class="btn btn-outline-danger m-2"><a href={% url 'sincronizar' %} name="btn_clientes">Sincronizar Clientes</a></button>
+<button type="button" class="btn btn-outline-danger m-2" name="btn_pedidos"><a href={% url 'sincronizar' %}>Sincronizar Pedidos</a></button>
 
-<button type="button" class="btn btn-outline-danger m-2"><a href={% url 'sincronizar' %} name="btn_pedidos">Sincronizar Pedidos</a></button>
+<button type="button" class="btn btn-outline-danger m-2" name="btn_hr"><a href={% url 'sincronizar' %}>Sincronizar Hojas de Ruta</a></button> {% endcomment %}
 
-<button type="button" class="btn btn-outline-danger m-2"><a href={% url 'sincronizar' %} name="btn_hr">Sincronizar Hojas de Ruta</a></button>
 
-<button type="button" class="btn btn-outline-danger m-2"><a href={% url 'sincronizar' %} name="btn_estados">Informar Estados</a></button>
+
+<button type="button" class="btn btn-outline-danger m-2" name="btn_estados"><a href={% url 'sincronizar' %}>Sincronizar</a></button>
 
 
 

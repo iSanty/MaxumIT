@@ -34,11 +34,11 @@ class PedidoParaMail(models.Model):
     fecha_estado_2 = models.DateField(null=True)
     fecha_estado_3 = models.DateField(null=True)
     fecha_estado_4 = models.DateField(null=True)
-    domicilio = models.CharField(max_length=128,null=True)
-    localidad = models.CharField(max_length=128,null=True)
-    cp = models.CharField(max_length=128,null=True)
-    estado_hr = models.CharField(max_length=128,null=True)
-    
+    domicilio = models.CharField(max_length=128, null=True)
+    localidad = models.CharField(max_length=128, null=True)
+    cp = models.CharField(max_length=128, null=True)
+    estado_hr = models.CharField(max_length=128, null=True)
+    num_celular = models.CharField(max_length=128, null=True)
     
     def __str__(self):
         return f'{self.nro_pedido} - {self.cliente}'
@@ -89,10 +89,25 @@ class MaestroCliente(models.Model):
     telefono = models.CharField(max_length=128)
     cuit = models.CharField(max_length=128)
     cond_iva = models.CharField(max_length=128)
+    num_celular = models.CharField(max_length=128)
     
     def __str__(self):
         return f'{self.codigo} - {self.nombre}'
     
+    
+class DatosCliente(models.Model):
+    codigo = models.IntegerField()
+    nombre = models.CharField(max_length=128)
+    domicilio = models.CharField(max_length=128)
+    localidad = models.CharField(max_length=128)
+    cod_loc = models.IntegerField()
+    provincia = models.CharField(max_length=128)
+    telefono = models.CharField(max_length=128)
+    cuit = models.CharField(max_length=128)
+    cond_iva = models.CharField(max_length=128)
+    
+    def __str__(self):
+        return f'{self.codigo} - {self.nombre}'
     
     
     
@@ -127,3 +142,12 @@ class HojaRuta(models.Model):
     
     def __str__(self):
         return f'{self.nro_hoja_de_ruta}'
+    
+    
+class NroPruebaBot(models.Model):
+    nro = models.CharField(max_length=14)
+    
+    
+    def __str__(self):
+        return f'{self.nro}'
+    

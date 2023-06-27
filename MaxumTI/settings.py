@@ -98,64 +98,15 @@ WSGI_APPLICATION = 'MaxumTI.wsgi.application'
 
 DATABASES = {
     
-    'default': {},
-    
-    'accounts_db': {
-        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'accounts_db',
+    'default': {
         
+            
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'maxumit',
         'HOST':'localhost',
         'PORT':'3306',
         'USER':'root',
-        'PASSWORD':'2355',
-    },
-    
-    'whydonna_db': {
-        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'whydonna_db',
-        
-        'HOST':'localhost',
-        'PORT':'3306',
-        'USER':'root',
-        'PASSWORD':'2355',
-    },
-    
-    'casahelse_db': {
-        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'casahelse_db',
-        
-        'HOST':'localhost',
-        'PORT':'3306',
-        'USER':'root',
-        'PASSWORD':'2355',
-    },
-    'saladillo_db': {
-        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'saladillo_db',
-        
-        'HOST':'localhost',
-        'PORT':'3306',
-        'USER':'root',
-        'PASSWORD':'2355',
-    },
-    
-    'aesseal_db': {
-        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'aesseal_db',
-        
-        'HOST':'localhost',
-        'PORT':'3306',
-        'USER':'root',
-        'PASSWORD':'2355',
-    },
-    
-    
-    'lecturas_db': {},
+        'PASSWORD':'2355'},
     
     'stg': {
         'ENGINE': 'django.db.backends.mysql',
@@ -166,21 +117,89 @@ DATABASES = {
         'USER':'santiago',
         'PASSWORD':'santi2320',
         
-    }
-    
-    
-    
+         
+        
+        }
 }
+
+
+
+#     'accounts_db': {
+#         #'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'accounts_db',
+        
+#         'HOST':'localhost',
+#         'PORT':'3306',
+#         'USER':'root',
+#         'PASSWORD':'2355',
+#     },
+    
+#     'whydonna_db': {
+#         #'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'whydonna_db',
+        
+#         'HOST':'localhost',
+#         'PORT':'3306',
+#         'USER':'root',
+#         'PASSWORD':'2355',
+#     },
+    
+#     'casahelse_db': {
+#         #'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'casahelse_db',
+        
+#         'HOST':'localhost',
+#         'PORT':'3306',
+#         'USER':'root',
+#         'PASSWORD':'2355',
+#     },
+#     'saladillo_db': {
+#         #'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'saladillo_db',
+        
+#         'HOST':'localhost',
+#         'PORT':'3306',
+#         'USER':'root',
+#         'PASSWORD':'2355',
+#     },
+    
+#     'aesseal_db': {
+#         #'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'aesseal_db',
+        
+#         'HOST':'localhost',
+#         'PORT':'3306',
+#         'USER':'root',
+#         'PASSWORD':'2355',
+#     },
+    
+    
+#     'lecturas_db': {},
+    
+#     'stg': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'stpedidos',
+        
+#         'HOST':'192.168.20.102',
+#         'PORT':'3306',
+#         'USER':'santiago',
+#         'PASSWORD':'santi2320',
+        
+#     }
+    
+    
+    
+# }
     
 DATABASE_ROUTERS = [
-    'routers.accounts_db_router.AccountsRouter',
-    'routers.aesseal_router.AesSealRouter',
-    'routers.casahelse_router.CasaHelseRouter',
-    'routers.saladillo_router.SaladilloRouter',
-    'routers.whydonna_router.WhyDonnaRouter',
-    'routers.lecturas_db_router.lecturas_db',
+    
     'routers.stg_router.stg',
-    'routers.bot_router.BotRouter'
+    
     
 ]
 

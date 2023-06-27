@@ -1,0 +1,64 @@
+{% extends 'index.html' %}
+
+{% block titulo1 %}
+<title>Perfil Usuario</title>
+{% endblock titulo1 %}
+
+
+
+
+
+
+{% block graficos_tablas %}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        
+          
+      <a href={% url 'editar_perfil' %}>
+        <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Edita datos personales" >
+          Editar Perfil
+        </button>
+      </a>
+      <a href={% url 'cambiar_password' %}>
+        <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Cambiar contraseña" >
+          Cambiar Contraseña
+        </button>
+      </a>
+        
+
+        <p>
+            <ul>
+                <li>
+        Nombre: {{request.user.first_name}}
+                </li>
+                <li>
+        Apellido: {{request.user.last_name}}
+                </li>
+                <li>
+        Email: {{request.user.email}}
+                </li>
+                <li>
+        Numero Celular: {{request.user.masdatosusuario.num_celular}}
+                </li>
+                <li>
+        Cliente Asignado: {{request.user.masdatosusuario.codigo_cliente}}
+                </li>
+                <li>
+        Descripcion: {{request.user.masdatosusuario.descripcion | safe}}
+                </li>
+                <li>
+                {% if request.user.masdatosusuario.avatar %}
+                    <p>Imagen:</p>
+                    <img src={{request.user.masdatosusuario.avatar.url}} alt="" height="200px">
+                {% endif %}
+                </li>
+                <button type="button" class="btn btn-outline-danger m-2"><a href="#">Volver</a></button>
+            </ul> 
+        </p>
+    </div>
+</div>
+
+{% endblock graficos_tablas %}
+
+

@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+
+
+{% block graficos_tablas %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <p>
+            <a href = {% url 'perfil' %}>Volver<a/>
+        </p>
+
+        <p>
+            <form action={%url 'editar_perfil'%} method="post" enctype="multipart/form-data">
+                {%csrf_token%}
+                <table>
+                    {{form.media}}
+                    {{form.as_table}}
+                </table>
+            <button>Editar</button>
+        </p>
+    </div>
+</div>
+
+{% endblock graficos_tablas %}

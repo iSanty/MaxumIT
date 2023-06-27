@@ -22,5 +22,8 @@ class MyUserEditForm(forms.Form):
     last_name = forms.CharField(label='Apellido', max_length=30,required=False)
     descripcion = RichTextFormField()
     avatar = forms.ImageField(required=False)
+    num_celular = forms.CharField()
+    codigo_cliente = forms.IntegerField()
+    
     
     

@@ -70,7 +70,7 @@ Panel Transportista
                             
                             <tr>
                                 
-                                <td><button type="button" class="btn btn-outline-danger m-2"><a href="#">Iniciar Ruta</a></button></td>
+                                <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'asignar_hr_masiva' valor.id %}>Iniciar Ruta</a></button></td>
                                 <th>{{valor.nro_ruteo}}</th>
                                 <th>{{valor.cliente}}</th>
                                 <th>{{valor.domicilio}}</th>

@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import bot
+from .views import bot, bot_saladillo
 
 
 
 
 urlpatterns = [
-    path('', bot),
+    path('', bot_saladillo),
 ]
 

@@ -12,7 +12,7 @@
 <div class="alert alert-secondary bg-secondary text-light border-0 alert-dismissible fade show" role="alert">
     <form action={% url 'sector_pruebas'%} method = "POST">
     <p>Crear Pedido - </p>
-    {{form_crear_pedido}}
+    <table>{{form_crear_pedido.as_table}}</table>
     <button type="submit" class="btn btn-info" name="btn_crear_pedido">Grabar</button>
 
     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -102,8 +102,8 @@
                             <td>{{valor.cliente}}</td>
                             <td>{{valor.fecha_estado_2 | date:"d/m/Y"}}</td>
                             <td>{{valor.fecha_creacion | date:"d/m/Y"}}</td>
-                            <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'asignar_hr' valor.id %}>Asignar HR</a></button></td>
-                            <td><button type="button" class="btn btn-outline-danger m-2"><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %} >Enviar Mail</a></button></td>
+                            <td><button type="button" class="btn btn-outline-danger m-2" name='ped_pred'><a href={% url 'asignar_hr' valor.id %}>Asignar HR</a></button></td>
+                            <td><button type="button" class="btn btn-outline-danger m-2" ><a href='#'{% comment %} {% url 'edicion_ficha' fichero.id %} {% endcomment %} >Enviar Mail</a></button></td>
                             <td><button type="button" class="btn btn-outline-danger m-2"><a href={% url 'bajar_estado' valor.id %} >Bajar estado</a></button></td>
   
                             
