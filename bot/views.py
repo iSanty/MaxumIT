@@ -256,6 +256,25 @@ Bienvenido, por favor responda con el número de la opción deseada:
                 detalle_pedido = TablaSaladillo.objects.filter(numero=pedido.cons_pedido)
                 lista_articulos = []
                 
+                if mensaje == 'todos' or mensaje == 'Todos' or mensaje == 'TODOS' or mensaje == 'tODOS':
+                    lista_ariculos_completa = []
+                    
+                    for valor in detalle_pedido:
+                        lista_ariculos_completa.append(valor.codigo_articulo)
+                        lista_ariculos_completa.append(valor.cantidad)
+                        
+                        
+                    client.messages.create(
+                        from_='whatsapp:+14155238886',
+                        body='Codigos y cantidades: ' + """
+""" + str(lista_ariculos_completa),
+                        to=numero
+                    )
+                    return HttpResponse('bot de wp')
+                    
+                        
+                    
+                    
                 for valor in detalle_pedido:
                     if valor.codigo_articulo == mensaje:
                         lista_articulos.append(valor.cantidad)
@@ -264,9 +283,22 @@ Bienvenido, por favor responda con el número de la opción deseada:
                 total = str(sum(lista_articulos))
                 largo = str(len(lista_articulos))
                 
+                if largo == 0:
+                    client.messages.create(
+                        from_='whatsapp:+14155238886',
+                        body="El articulo " + mensaje + " existe en pedido" + str(pedido) + " para consultar todos los articulos del pedido, envie la palabra - todos -",
+                        to=numero
+                    )
+                    return HttpResponse('bot de wp')
+                    
                 client.messages.create(
                         from_='whatsapp:+14155238886',
                         body="El articulo " + mensaje + " tiene un total de " + total + " unidades. El pedido contiene " + largo + " lineas de este articulo. Para consultar otro articulo del mismo pedido, escribalo, sino escriba inicio para volver.",
+                        to=numero
+                    )
+                client.messages.create(
+                        from_='whatsapp:+14155238886',
+                        body='Para ver todos los articulos, escriba "todos".',
                         to=numero
                     )
                 return HttpResponse('bot de wp')
