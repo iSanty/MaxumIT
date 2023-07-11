@@ -34,6 +34,7 @@ def validar_dato(consulta):
 
 
 
+
 account_sid = os.getenv('account_sid')
 auth_token = os.getenv('auth_token')
 
@@ -52,6 +53,13 @@ def bot_saladillo(request):
         pedidos_cliente = []
         #Agarro la informacion del nro de telefono, pedudos, datos de usuario y estado de consulta "punto"
         punto = Punto.objects.filter(numero=numero)
+        if not punto:
+            nuevo = Punto(
+                numero = numero,
+                punto = '1',
+                cons_pedido = 1
+            )
+            nuevo.save()
         datos_usuario = MasDatosUsuario.objects.filter(num_celular=numero_limpio)
         if len(datos_usuario) == 1:
             datos_usuario_get = MasDatosUsuario.objects.get(num_celular=numero_limpio)
@@ -84,10 +92,36 @@ def bot_saladillo(request):
                         numero = numero
                     )
                     nuevo_numero.save()
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                body_1 = "Bienvenido, usted tiene un total de " + str(len(pedidos_cliente)) + " pedidos cargados. Que desea consultar?"
+                body_2 = 'Estimado usuario ' + str(datos_usuario_get.user) + ' con codigo de cliente ' + str(datos_usuario_get.codigo_cliente)
+                body_3 = ' Mensaje aleatorio 3 '
+                body_4 = ' Mensaje aleatorio 4 '
+                body_5 = ' Mensaje aleatorio 5 '
+                
+                eleccion = random.randint(1,5)
+                if eleccion == 1:
+                    body_final = body_1
+                elif eleccion == 2:
+                    body_final = body_2
+                elif eleccion == 3:
+                    body_final = body_3
+                elif eleccion == 4:
+                    body_final = body_4
+                elif eleccion == 5:
+                    body_final = body_5                
+                else:
+                    body_final = "Bienvenido, usted tiene un total de " + str(len(pedidos_cliente)) + " pedidos cargados. Que desea consultar?"
+                
                 client.messages.create(
                     from_='whatsapp:+14155238886',
-                    body="""Paramentros reiniciados.
-Bienvenido, por favor responda con el número de la opción deseada:
+                    body=body_final + """
 1) Contultar estado por numero de pedido
 2) Consultas por articulo
                     """,
@@ -118,9 +152,36 @@ Bienvenido, por favor responda con el número de la opción deseada:
             if punto.punto == "1":
                 punto.punto = 'Principio'
                 
+                
+                #Primer mernsaje
+                
+                
+                body_1 = "Bienvenido, usted tiene un total de " + str(len(pedidos_cliente)) + " pedidos cargados. Que desea consultar?"
+                body_2 = 'Estimado usuario ' + str(datos_usuario_get.user) + ' con codigo de cliente ' + datos_usuario_get.codigo_cliente
+                body_3 = ' Mensaje aleatorio 3 '
+                body_4 = ' Mensaje aleatorio 4 '
+                body_5 = ' Mensaje aleatorio 5 '
+                
+                eleccion = random.randint(1,5)
+                if eleccion == 1:
+                    body_final = body_1
+                elif eleccion == 2:
+                    body_final = body_2
+                elif eleccion == 3:
+                    body_final = body_3
+                elif eleccion == 4:
+                    body_final = body_4
+                elif eleccion == 5:
+                    body_final = body_5                
+                else:
+                    body_final = "Bienvenido, usted tiene un total de " + str(len(pedidos_cliente)) + " pedidos cargados. Que desea consultar?"
+                
+        
+                
+                
                 client.messages.create(
                     from_='whatsapp:+14155238886',
-                    body="Bienvenido, usted tiene un total de " + str(len(pedidos_cliente)) + " pedidos cargados. Que desea consultar?",
+                    body=body_final ,
                     to=numero
                 )
                 client.messages.create(
@@ -135,6 +196,9 @@ Bienvenido, por favor responda con el número de la opción deseada:
                     """,
                     to=numero
                 )
+                #Fin primer mensaje
+                
+                
                 punto.save()
                 
                 return HttpResponse('')
@@ -143,9 +207,16 @@ Bienvenido, por favor responda con el número de la opción deseada:
                 if mensaje == '1':
                     punto.punto = 'ConsultaPedido'
                     punto.save()
+                    if len(pedidos_cliente) > 0:
+                        for nro_pedido in pedidos_cliente:
+                            nro_pedido = nro_pedido.nro_pedido
+                            
+                        nro_ejemplo = str(nro_pedido)
+                    else:
+                        nro_ejemplo = '715872'
                     client.messages.create(
                         from_='whatsapp:+14155238886',
-                        body="Por favor indique su nro de pedido.",
+                        body="Usted tiene un total de " + str(len(pedidos_cliente)) + " pedidos cargados, si conoce el nro de pedido escribalo, ej."+ str(nro_ejemplo) +" sino puede escribir * y consultar la lista de pedidos activos.",
                         to=numero
                     )
                     return HttpResponse('')
@@ -154,7 +225,7 @@ Bienvenido, por favor responda con el número de la opción deseada:
                     punto.save()
                     client.messages.create(
                         from_='whatsapp:+14155238886',
-                        body="Indique el nro de pedido para consultar si contiene un articulo.",
+                        body="Si conoce el nro de articulo, escribalo, sino escriba inicio para volver al menu principal.",
                         to=numero
                     )
                     return HttpResponse('')
@@ -323,10 +394,11 @@ Bienvenido, por favor responda con el número de la opción deseada:
                 
                 
         else:#este es el else de cuando no tengo un usuario con nro de celular
+            
         
             client.messages.create(
                 from_='whatsapp:+14155238886',
-                body="Su nro de celular no se encuentra registrado, escriba su CUIL para iniciar el modo desconectado. Automaticamente se enviará una solicitud de registro al Administrador. Mientras tanto puede consultar el estado de sus pedidos.",
+                body="Su nro de celular no se encuentra registrado, sin embargo puede usar el servicio provisoriamente. Primero necesito saber",
                 to=numero
             )
             return HttpResponse('')

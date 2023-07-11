@@ -26,7 +26,7 @@ def conectarse(request):
             if user is not None:
                 login(request, user)
                 
-                return redirect('inicio')
+                return redirect('index_saladillo')
             else:
                 return render(request, 'accounts/login.html', {'form': form_login})
         else:
@@ -41,7 +41,7 @@ def registrarse(request):
         form = MyUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('inicio')
+            return redirect('index_saladillo')
         else:
             return render(request, 'accounts/registrarse.html', {'form':form})
         

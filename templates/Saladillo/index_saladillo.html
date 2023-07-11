@@ -77,20 +77,20 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#tables1-nav" data-bs-toggle="collapse" href="#">
+            <a class="nav-link collapsed" data-bs-target="#tables1-nav" data-bs-toggle="collapse" href='#'>
                 <i class="bi bi-layout-text-window-reverse"></i><span>Perfil</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="tables1-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
                 {% if request.user.is_authenticated %}
-                    <a href="#">
+                    <a href={% url 'perfil' %}>
                         <i class="bi bi-circle"></i><span>{{request.user.username}}</span>
                     </a>
                     <a href={% url 'logout' %}>
                         <i class="bi bi-circle"></i><span>Cerrar sesión</span>
                     </a>
                 {% else %}
-                    <a href="#">
+                    <a href={% url 'login' %}>
                         <i class="bi bi-circle"></i><span>Login</span>
                     </a>
 
@@ -109,7 +109,7 @@
             <ul id="tables2-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
                 
-                    
+{% comment %}                     
                     <a href="#">
                         <i class="bi bi-circle"></i><span>Estado Recibido</span>
                     </a>
@@ -119,7 +119,7 @@
                     </a>
                     <a href="#">
                         <i class="bi bi-circle"></i><span>Estado Ruteado</span>
-                    </a>
+                    </a> {% endcomment %}
 
                 
                 </li>

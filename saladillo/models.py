@@ -151,3 +151,11 @@ class NroPruebaBot(models.Model):
     def __str__(self):
         return f'{self.nro}'
     
+    
+    
+class Articulo(models.Model):
+    articulo = models.CharField(max_length=128)
+    descripcion = models.CharField(max_length=256)
+    
+    def __str__(self):
+        return f'{self.articulo}'
